@@ -181,20 +181,18 @@ INSERT INTO `parking_space` (`SpaceID`, `Location`, `Status`, `AreaID`) VALUES
 --
 
 CREATE TABLE `register_account` (
-  `RegAccID` varchar(15) NOT NULL,
-  `Name` varchar(30) NOT NULL,
-  `Email` varchar(30) NOT NULL,
-  `StudentID` varchar(15) NOT NULL,
-  `AdminID` varchar(15) NOT NULL
+  `RegAccID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `Name` VARCHAR(30) NOT NULL,
+  `Email` VARCHAR(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `register_account`
 --
 
-INSERT INTO `register_account` (`RegAccID`, `Name`, `Email`, `StudentID`, `AdminID`) VALUES
-('R001', 'Muhd Irfan', 'IrfanRosli@gmail.com', 'CA001', 'AA001'),
-('R002', 'Aiman Soleh', 'AimanSoleh@gmail.com', 'CA002', 'AA002');
+INSERT INTO `register_account` (`Name`, `Email`) VALUES
+('Muhd Irfan', 'IrfanRosli@gmail.com'),
+('Aiman Soleh', 'AimanSoleh@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -307,7 +305,7 @@ CREATE TABLE `user_profile` (
 --
 
 INSERT INTO `user_profile` (`userID`, `userPassword`, `userRole`) VALUES
-('UA001', '123abc', 'Administrator'),
+('atirahhusna873@gmail.com', '123abc', 'Administrator'),
 ('UA002', '456abc', 'Administrator'),
 ('UB001', '123678', 'Staff'),
 ('UB002', '987654', 'Staff'),
