@@ -1,3 +1,21 @@
+<!-- ubah.php -->
+<!-- Interface of update data. -->
+
+<?php
+include("dbase.php");
+
+$idURL = $_GET['userID'];
+
+$query = "SELECT * FROM user_profile WHERE userID = '$idURL'";
+$result = mysqli_query($conn, $query) or die ("Could not execute query in editStudent.php");
+$row = mysqli_fetch_assoc($result);
+
+$userID = $row['userID'];
+$userPassword = $row['userPassword'];
+$userRole = $row['userRole'];
+
+//@mysql_free_result($result);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -312,37 +330,25 @@
             </nav>
             <div class="container">
                 <h2>Registration Information</h2>
-                <?php
-include("dbase.php");
-$query = "SELECT * FROM user_profile";
-$result = mysqli_query($conn, $query);
-
-if (mysqli_num_rows($result) > 0) {
-    echo '<table class="table table-striped">';
-    echo '<thead><tr><th>Number</th><th>User ID</th><th>Password</th><th>Role</th><th>Action</th></tr></thead>';
-    echo '<tbody>';
-    $counter = 1;
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo '<tr>';
-        echo '<td>' . $counter . '</td>';
-        echo '<td>' . htmlspecialchars($row["userID"]) . '</td>';
-        echo '<td>' . htmlspecialchars($row["userPassword"]) . '</td>';
-        echo '<td>' . htmlspecialchars($row["userRole"]) . '</td>';
-        echo '<td>';
-        echo '<a href="editStudent.php?userID=' . $row["userID"] . '" class="btn btn-primary">Edit</a> ';
-        echo '<a href="deleteStudent.php?userID=' . $row["userID"] . '" class="btn btn-danger">Delete</a>';
-        echo '</td>';
-        echo '</tr>';
-        $counter++;
-    }
-    echo '</tbody></table>';
-} else {
-    echo "<p>No results found.</p>";
-}
-?>
-
+                <form action="updateStudent.php" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="userID" name="userID" value="<?php echo $userID; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="userPassword" name="userPassword" value="<?php echo $userPassword; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role:</label>
+                        <select class="form-control" id="userRole" name="userRole" value="<?php echo $userRole; ?>">
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
             </div>
-            <hr>
+                <hr>
             <div id="footer">
                 <p>Copyright &copy; 2024 FAKULTI KOMPUTER Corporation. All Rights Reserved.</p>
             </div>
