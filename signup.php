@@ -61,8 +61,8 @@
                 <div class="form-group">
                   <label for="role">Role:</label>
                   <select class="form-control" id="userRole" name="userRole" required>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Staff</option>
+                    <option value="Administrator">Administrator</option>
+                    <option value="staff">staff</option>
                   </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Register</button>

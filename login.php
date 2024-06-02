@@ -1,3 +1,55 @@
+<?php
+session_start(); // Start the session
+include("dbase.php");
+
+function validateUser($conn, $userID, $userPassword, $userRole) {
+    // Sanitize and validate input data
+    $userID = mysqli_real_escape_string($conn, $userID);
+    $userPassword = mysqli_real_escape_string($conn, $userPassword);
+    $userRole = mysqli_real_escape_string($conn, $userRole);
+
+    // Fetch userID from user_profile based on username, password, and category
+    $query = "SELECT userID FROM user_profile WHERE userID='$userID' AND userPassword='$userPassword' AND userRole='$userRole'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['userID'];
+    } else {
+        return false;
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $userID = $_POST['userID'];
+    $userPassword = $_POST['userPassword'];
+    $userRole = $_POST['userRole'];
+
+    // Validate user credentials
+    $userID = validateUser($conn, $userID, $userPassword, $userRole);
+
+    if ($userID) {
+        $_SESSION['userID'] = $userID; // Store userID in session
+
+        // Redirect based on category
+        if ($userRole == "Administrator") {
+            header("Location: AdministratorPage.php");
+            exit();
+        } elseif ($userRole == "staff") {
+            header("Location: staff.php");
+            exit();
+        } elseif ($userRole == "student") {
+            header("Location: student.php");
+            exit();
+        } else {
+            echo "<div class='text-center text-danger'>Please select a valid category.</div>";
+        }
+    } else {
+        echo "<div class='text-center text-danger'>Invalid username, password, or category.</div>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,16 +100,16 @@
                 </div>
               </div>
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="text" id="form3Example3" name="username" class="form-control" />
+                <input type="text" id="form3Example3" name="userID" class="form-control" required />
                 <label class="form-label" for="form3Example3">Username</label>
               </div>
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="form3Example4" name="password" class="form-control" />
+                <input type="password" id="form3Example4" name="userPassword" class="form-control" required />
                 <label class="form-label" for="form3Example4">Password</label>
               </div>
               <div class="form-outline mb-4">
-                <select class="form-select" name="category" aria-label="Default select example">
-                  <option selected>Select your category</option>
+                <select class="form-select" name="userRole" aria-label="Default select example" required>
+                  <option value="" disabled selected>Select your category</option>
                   <option value="Administrator">Administrator</option>
                   <option value="student">Students</option>
                   <option value="staff">Staff</option>
@@ -65,7 +117,7 @@
               </div>
               <div class="text-center">
                 <button type="submit" name="login" class="btn btn-primary btn-block mb-4">Login</button>
-                <a href="http://127.0.0.1:8000/ForgotPassword" class="btn btn-primary btn-block mb-4">Forgot password</a>
+                <a href="http://localhost/FkPark/signup.php" class="btn btn-primary btn-block mb-4">SignUp</a>
               </div>
             </div>
           </div>
@@ -74,44 +126,6 @@
     </div>
   </form>
 </div>
-
-<?php
-include("dbase.php");
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-  $category = $_POST['category'];
-  if ($category == "Administrator") {
-    header("Location: AdministratorPage.php");
-    exit(); // Exit after redirection
-  } elseif ($category == "staff") {
-    header("Location: staff.php");
-    exit(); // Exit after redirection
-  } elseif ($category == "student") {
-    header("Location: student.php");
-    exit(); // Exit after redirection
-  } else {
-    echo "<div class='text-center text-danger'>Please select a valid category.</div>";
-  }
-
-  // Get the current date and time
-  $tarikh = date("d-m-Y", time());
-  $masa = date("H:i:s", time());
-
-  // Sanitize and validate input data
-  $username = mysqli_real_escape_string($conn, $_POST['username']);
-  $password = mysqli_real_escape_string($conn, $_POST['password']); // Assuming there's an email field
-  $category = mysqli_real_escape_string($conn, $_POST['category']); // Assuming there's an email field
-
-  // Insert data into the database
-  $query = "INSERT INTO user_profile (userID, userPassword, userRole) VALUES ('$username', '$password', '$category')";
-
-  if (mysqli_query($conn, $query)) {
-    echo "<script type='text/javascript'> window.location='papar.php' </script>";
-  } else {
-    echo "Error: " . $query . "<br>" . mysqli_error($conn);
-  }
-}
-?>
 
 </body>
 </html>

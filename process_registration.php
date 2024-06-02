@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     } else {
         // Insert data into the database
-        $query = "INSERT INTO user_profile (userID, userPassword, userRole) VALUES ('$username', '$password', '$category')";
+        $query = "INSERT INTO user_profile (userID, userPassword, userRole) VALUES ('$userID', '$userPassword', '$userRole')";
 
         if (mysqli_query($conn, $query)) {
             $success = "Registration successful.";

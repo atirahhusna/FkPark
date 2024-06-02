@@ -32,7 +32,7 @@ CREATE TABLE `administrator` (
   `AdminName` varchar(30) NOT NULL,
   `AdminPhoneNum` varchar(11) NOT NULL,
   `AdminEmail` varchar(30) NOT NULL,
-  `userId` varchar(15) NOT NULL
+  `userID` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

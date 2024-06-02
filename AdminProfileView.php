@@ -1,3 +1,38 @@
+<?php
+session_start();
+include("dbase.php");
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Check if the userID is set in the session
+if (!isset($_SESSION['userID'])) {
+    die("User is not logged in.");
+}
+
+$userID = $_SESSION['userID'];
+
+// Fetch administrator data from the database
+$query = "SELECT AdminID, AdminName, AdminPhoneNum, AdminEmail FROM administrator WHERE userID = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param('s', $userID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if the user is found
+if ($result->num_rows > 0) {
+    $adminData = $result->fetch_assoc();
+    $AdminID = $adminData['AdminID'];
+    $AdminName = $adminData['AdminName'];
+    $AdminPhoneNum = $adminData['AdminPhoneNum'];
+    $AdminEmail = $adminData['AdminEmail'];
+} else {
+    die("Administrator data not found.");
+}
+
+$stmt->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,7 +156,46 @@
             border-left: 3px solid #3b7ddd;
         }
 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
 
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
         ul.navigation{ 
         list-style-type: none;
         margin: 0;
@@ -380,6 +454,28 @@
                     </ul>
                 </div>
             </nav>
+            <div class="container">
+        <h1>User Profile</h1>
+        <form action="adminProfileEdit.php" method="POST">
+            <div class="mb-3">
+                <label for="adminID" class="form-label">Admin ID:</label>
+                <input type="text" class="form-control" id="AdminID" name="AdminID" value="<?php echo htmlspecialchars($AdminID); ?>" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="AdminName" name="AdminName" value="<?php echo htmlspecialchars($AdminName); ?>" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number:</label>
+                <input type="tel" class="form-control" id="AdminPhoneNumber" name="AdminPhoneNumber" value="<?php echo htmlspecialchars($AdminPhoneNum); ?>" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="AdminEmail" name="AdminEmail" value="<?php echo htmlspecialchars($AdminEmail); ?>" readonly>
+            </div>
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
             <!-- Content -->
             <table class="center" style="margin: 0 auto;">
                 <tr>
