@@ -1,3 +1,38 @@
+<?php
+session_start();
+include("dbase.php");
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Check if the userID is set in the session
+if (!isset($_SESSION['userID'])) {
+    die("User is not logged in.");
+}
+
+$userID = $_SESSION['userID'];
+
+// Fetch administrator data from the database
+$query = "SELECT StaffID, StaffName, StaffEmail, StaffPhoneNum FROM staff WHERE userID = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param('s', $userID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if the user is found
+if ($result->num_rows > 0) {
+    $StaffData = $result->fetch_assoc();
+    $StaffID = $StaffData['StaffID'];
+    $StaffName = $StaffData['StaffName'];
+    $StaffEmail = $StaffData['StaffEmail'];
+    $StaffPhoneNum = $StaffData['StaffPhoneNum'];
+} else {
+    die("Staff data not found.");
+}
+
+$stmt->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -335,21 +370,33 @@
                     </ul>
                 </div>
             </nav>
+            <div class="container">
+        <h1>User Profile</h1>
+        <form action="staffEdit.php" method="POST">
+            <div class="mb-3">
+                <label for="StaffID" class="form-label">Staff ID:</label>
+                <input type="text" class="form-control" id="StaffID" name="StaffID" value="<?php echo htmlspecialchars($StaffID); ?>" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="StaffName" name="StaffName" value="<?php echo htmlspecialchars($StaffName); ?>" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number:</label>
+                <input type="tel" class="form-control" id="StaffPhoneNum" name="StaffPhoneNum" value="<?php echo htmlspecialchars($StaffPhoneNum); ?>" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="StaffEmail" name="StaffEmail" value="<?php echo htmlspecialchars($StaffEmail); ?>" readonly>
+            </div>
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
             <!-- Content -->
-
-
-
-
-
-
-
-
-
-            
             <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
-                        <img src="logoFK.png" alt="logo" width="150" height="150">
+                       
                     </td>
                     <td style="width: 800px; text-align: justify;">
                         <!-- Additional content here -->
@@ -373,4 +420,3 @@
     </script>
 </body>
 </html>
-

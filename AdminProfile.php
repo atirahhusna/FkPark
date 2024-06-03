@@ -495,7 +495,7 @@ margin-right: auto;
                 <label for="email" class="form-label">Email:</label>
                 <input type="email" class="form-control" id="AdminEmail" name="AdminEmail" value="<?php echo htmlspecialchars($AdminEmail); ?>" readonly>
             </div>
-            <button type="submit" class="btn btn-primary">Edit</button>
+            <button type="submit" class="btn btn-primary">Create</button>
     </form>
 </div>
 <table class="center" style="margin: 0 auto;">
