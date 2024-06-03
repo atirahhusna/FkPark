@@ -305,7 +305,13 @@
     </a>
     <ul class="sidebar-dropdown collapse" id="profileDropdown">
         <li class="sidebar-item">
-            <a href="http://localhost/FkPark/AdminProfile.php" class="sidebar-link">
+            <a href="http://localhost/FkPark/adminProfileEdit.php" class="sidebar-link">
+                <i class="lni lni-user"></i> <!-- Icon for My Profile -->
+                <span>Create My Profile</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="http://localhost/FkPark/AdminProfileView.php" class="sidebar-link">
                 <i class="lni lni-user"></i> <!-- Icon for My Profile -->
                 <span>My Profile</span>
             </a>

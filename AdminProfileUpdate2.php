@@ -29,7 +29,7 @@ if ($result->num_rows > 0) {
     $AdminEmail = $adminData['AdminEmail'];
 } else {
     die("Administrator data not found.");
-} 
+}
 
 $stmt->close();
 ?>
@@ -476,26 +476,26 @@ margin-right: auto;
                     </ul>
                 </div>
             </nav>
-<div class="container">
+    <div class="container">
     <h1>User Profile</h1>
-    <form action="adminProfileEdit.php" method="POST">
-    <div class="mb-3">
-                <label for="adminID" class="form-label">Admin ID:</label>
-                <input type="text" class="form-control" id="AdminID" name="AdminID" value="<?php echo htmlspecialchars($AdminID); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="AdminName" name="AdminName" value="<?php echo htmlspecialchars($AdminName); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="AdminPhoneNumber" name="AdminPhoneNumber" value="<?php echo htmlspecialchars($AdminPhoneNum); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="AdminEmail" name="AdminEmail" value="<?php echo htmlspecialchars($AdminEmail); ?>" readonly>
-            </div>
-            <button type="submit" class="btn btn-primary">Edit</button>
+    <form action="AdminProfileUpdate.php" method="POST">
+        <div class="mb-3">
+            <label for="adminID" class="form-label">Admin ID:</label>
+            <input type="text" class="form-control" id="AdminID" name="AdminID" value="<?php echo htmlspecialchars($AdminID); ?>">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="AdminName" name="AdminName" requvalue="<?php echo htmlspecialchars($AdminName); ?>">
+        </div>
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <input type="tel" class="form-control" id="AdminPhoneNum" name="AdminPhoneNum" value="<?php echo htmlspecialchars($AdminPhoneNum); ?>">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="AdminEmail" name="AdminEmail" value="<?php echo htmlspecialchars($AdminEmail); ?>">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
 <table class="center" style="margin: 0 auto;">

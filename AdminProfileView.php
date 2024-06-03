@@ -378,6 +378,12 @@ $stmt->close();
         <span>Profile</span>
     </a>
     <ul class="sidebar-dropdown collapse" id="profileDropdown">
+    <li class="sidebar-item">
+            <a href="http://localhost/FkPark/AdminProfile.php" class="sidebar-link">
+                <i class="lni lni-user"></i> <!-- Icon for My Profile -->
+                <span>Create My Profile</span>
+            </a>
+        </li>
         <li class="sidebar-item">
             <a href="http://localhost/FkPark/AdminProfile.php" class="sidebar-link">
                 <i class="lni lni-user"></i> <!-- Icon for My Profile -->
@@ -456,7 +462,7 @@ $stmt->close();
             </nav>
             <div class="container">
         <h1>User Profile</h1>
-        <form action="adminProfileEdit.php" method="POST">
+        <form action="AdminProfileUpdate2.php" method="POST">
             <div class="mb-3">
                 <label for="adminID" class="form-label">Admin ID:</label>
                 <input type="text" class="form-control" id="AdminID" name="AdminID" value="<?php echo htmlspecialchars($AdminID); ?>" readonly>

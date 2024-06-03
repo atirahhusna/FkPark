@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -359,8 +360,14 @@ margin-right: auto;
         <span>Profile</span>
     </a>
     <ul class="sidebar-dropdown collapse" id="profileDropdown">
+    <li class="sidebar-item">
+            <a href="http://localhost/FkPark/adminProfileEdit.php" class="sidebar-link">
+                <i class="lni lni-user"></i> <!-- Icon for My Profile -->
+                <span>Create My Profile</span>
+            </a>
+        </li>
         <li class="sidebar-item">
-            <a href="http://localhost/FkPark/AdminProfile.php" class="sidebar-link">
+            <a href="http://localhost/FkPark/AdminProfileView.php" class="sidebar-link">
                 <i class="lni lni-user"></i> <!-- Icon for My Profile -->
                 <span>My Profile</span>
             </a>
@@ -454,7 +461,7 @@ margin-right: auto;
             <label for="email" class="form-label">Email:</label>
             <input type="email" class="form-control" id="AdminEmail" name="AdminEmail" required>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 <table class="center" style="margin: 0 auto;">

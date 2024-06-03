@@ -14,21 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $AdminEmail = mysqli_real_escape_string($conn, $_POST['AdminEmail']);
     $userID = $_SESSION['userID']; // Retrieve userID from session
 
-    // Insert data into the database
-    $query = "INSERT INTO administrator (AdminID, AdminName, AdminPhoneNum, AdminEmail, userID) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('sssss', $AdminID, $AdminName, $AdminPhoneNum, $AdminEmail, $userID);
+    if (!isset($_POST['update'])) {
+        // Insert new record
+        $query = "INSERT INTO administrator (AdminID, AdminName, AdminPhoneNum, AdminEmail, userID) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('sssss', $AdminID, $AdminName, $AdminPhoneNum, $AdminEmail, $userID);
 
-    if ($stmt->execute()) {
-        $success = "Profile inserted successfully.";
-        header("Location: AdminProfileView.php?success=" . urlencode($success));
-        exit;
-    } else {
-        $error = "Error: " . $stmt->error;
-        header("Location: AdminProfileView.php?error=" . urlencode($error));
-        exit;
+        if ($stmt->execute()) {
+            $success = "Profile inserted successfully.";
+            header("Location: AdminProfileView.php?success=" . urlencode($success));
+            exit;
+        } else {
+            $error = "Error: " . $stmt->error;
+            header("Location: AdminProfileView.php?error=" . urlencode($error));
+            exit;
+        }
+
+        $stmt->close();
+    } 
+    
     }
 
-    $stmt->close();
-}
+    $conn->close();
+
 ?>
