@@ -1,3 +1,36 @@
+<?php
+session_start();
+include("dbase.php");
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Check if the userID is set in the session
+if (!isset($_SESSION['userID'])) {
+    die("User is not logged in.");
+}
+
+$userID = $_SESSION['userID'];
+
+// Fetch administrator data from the database
+$query = "SELECT StudentID, StudName, StudPhoneNum, StudSemester FROM student WHERE userID = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param('s', $userID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if the user is found
+if ($result->num_rows > 0) {
+    $StudentData = $result->fetch_assoc();
+    $StudentID = $StudentData['StudentID'];
+    $StudName = $StudentData['StudName'];
+    $StudPhoneNum = $StudentData['StudPhoneNum'];
+    $StudSemester = $StudentData['StudSemester'];
+} else {
+    die("Student data not found.");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +90,7 @@
             min-width: 70px;
             z-index: 1000;
             transition: all .25s ease-in-out;
-            background-color: #0e2238;
+            background-color: #2B7A78;
             display: flex;
             flex-direction: column;
         }
@@ -278,14 +311,14 @@
                 </div>
             </div>
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/staffProfile.php" class="sidebar-link">
+            <li class="sidebar-item">
+                    <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
-                        <span>Create My Profile</span>
+                        <span>Create Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/s_p_view.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/studEditProfile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
@@ -302,10 +335,35 @@
                         <span>New Summon</span>
                     </a>
                 </li>
+                
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-parking"></i>
-                        <span>Park Availability</span>
+                        <i class="lni lni-stamp"></i>
+                        <span>Apply Sticker</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-checkmark-circle"></i>
+                        <span>My Summon</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-list"></i>
+                        <span>My Demerit & Status</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-bookmark"></i>
+                        <span>Booking Parking</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
                     </a>
                 </li>
             </ul>
@@ -335,32 +393,33 @@
                     </ul>
                 </div>
             </nav>
-<div class="container">
+            <!-- Content -->
+            <div class="container">
     <h1>User Profile</h1>
-    <form action="s_p_create.php" method="POST">
-    <div class="mb-3">
-                <label for="adminID" class="form-label">Staff ID:</label>
-                <input type="text" class="form-control" id="StaffID" name="StaffID"  required>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="StaffName" name="StaffName"  required>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="StaffPhoneNum" name="StaffPhoneNum"  required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="StaffEmail" name="StaffEmail"  required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+    <form action="studUpdateProfile.php" method="POST">
+        <div class="mb-3">
+            <label for="StaffID" class="form-label">Student ID:</label>
+            <input type="text" class="form-control" id="StudentID" name="StudentID" value="<?php echo htmlspecialchars($StudentID); ?>" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="StudName" name="StudName" value="<?php echo htmlspecialchars($StudName); ?>">
+        </div>
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <input type="tel" class="form-control" id="StudPhoneNum" name="StudPhoneNum" value="<?php echo htmlspecialchars($StudPhoneNum); ?>">
+        </div>
+        <div class="mb-3">
+            <label for="text" class="form-label">Semester:</label>
+            <input type="text" class="form-control" id="StudSemester" name="StudSemester" value="<?php echo htmlspecialchars($StudSemester); ?>">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
-<table class="center" style="margin: 0 auto;">
+            <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
-                       
+                        <img src="logoFK.png" alt="logo" width="150" height="150">
                     </td>
                     <td style="width: 800px; text-align: justify;">
                         <!-- Additional content here -->
@@ -384,6 +443,3 @@
     </script>
 </body>
 </html>
-
-
-

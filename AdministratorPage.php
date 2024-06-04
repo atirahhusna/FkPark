@@ -317,9 +317,15 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="http://localhost/FkPark/Register.php" class="sidebar-link">
                 <i class="lni lni-graduation"></i>
-                <span>Student Account</span>
+                <span>Register Student Account</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="http://localhost/FkPark/studentView.php" class="sidebar-link">
+                <i class="lni lni-graduation"></i>
+                <span>Student Account List</span>
             </a>
         </li>
     </ul>

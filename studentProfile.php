@@ -57,7 +57,7 @@
             min-width: 70px;
             z-index: 1000;
             transition: all .25s ease-in-out;
-            background-color: #0e2238;
+            background-color: #2B7A78;
             display: flex;
             flex-direction: column;
         }
@@ -279,13 +279,13 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/staffProfile.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
-                        <span>Create My Profile</span>
+                        <span>Create Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/s_p_view.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/studEditProfile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
@@ -302,10 +302,35 @@
                         <span>New Summon</span>
                     </a>
                 </li>
+                
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-parking"></i>
-                        <span>Park Availability</span>
+                        <i class="lni lni-stamp"></i>
+                        <span>Apply Sticker</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-checkmark-circle"></i>
+                        <span>My Summon</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-list"></i>
+                        <span>My Demerit & Status</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-bookmark"></i>
+                        <span>Booking Parking</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
                     </a>
                 </li>
             </ul>
@@ -335,32 +360,44 @@
                     </ul>
                 </div>
             </nav>
-<div class="container">
+            <div class="container">
     <h1>User Profile</h1>
-    <form action="s_p_create.php" method="POST">
+    <form action="stud_create.php" method="POST">
     <div class="mb-3">
-                <label for="adminID" class="form-label">Staff ID:</label>
-                <input type="text" class="form-control" id="StaffID" name="StaffID"  required>
+                <label for="adminID" class="form-label">Student ID:</label>
+                <input type="text" class="form-control" id="StudentID" name="StudentID"  required>
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="StaffName" name="StaffName"  required>
+                <input type="text" class="form-control" id="StudName" name="StudName"  required>
             </div>
             <div class="mb-3">
                 <label for="phoneNumber" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="StaffPhoneNum" name="StaffPhoneNum"  required>
+                <input type="tel" class="form-control" id="StudPhoneNum" name="StudPhoneNum"  required>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="StaffEmail" name="StaffEmail"  required>
+                <label for="text" class="form-label">Semester:</label>
+                <input type="text" class="form-control" id="StudSemester" name="StudSemester"  required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-<table class="center" style="margin: 0 auto;">
+
+
+
+
+
+
+
+
+
+
+
+
+            <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
-                       
+                        <img src="logoFK.png" alt="logo" width="150" height="150">
                     </td>
                     <td style="width: 800px; text-align: justify;">
                         <!-- Additional content here -->
@@ -384,6 +421,3 @@
     </script>
 </body>
 </html>
-
-
-

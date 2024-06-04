@@ -312,7 +312,7 @@ if ($result->num_rows > 0) {
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/staffProfile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Create My Profile</span>
                     </a>
