@@ -285,7 +285,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
                     </a>

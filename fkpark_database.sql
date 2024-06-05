@@ -209,8 +209,7 @@ CREATE TABLE `register_vehicle` (
   `OwnerName` varchar(30) NOT NULL,
   `OwnerAddress` varchar(30) NOT NULL,
   `PhoneNumberOwner` varchar(11) NOT NULL,
-  `StudentID` varchar(15) DEFAULT NULL,
-  `StaffID` varchar(15) DEFAULT NULL
+  `StudentID` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -380,7 +379,7 @@ ALTER TABLE `register_account`
 ALTER TABLE `register_vehicle`
   ADD PRIMARY KEY (`VehicleID`),
   ADD KEY `StudentID` (`StudentID`),
-  ADD KEY `StaffID` (`StaffID`);
+
 
 --
 -- Indexes for table `report`
@@ -464,7 +463,6 @@ ALTER TABLE `register_account`
 --
 ALTER TABLE `register_vehicle`
   ADD CONSTRAINT `register_vehicle_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
-  ADD CONSTRAINT `register_vehicle_ibfk_2` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`);
 
 --
 -- Constraints for table `report`
