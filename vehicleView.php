@@ -478,8 +478,7 @@ input[type=submit], input[type=reset], input[type=save] {
             <div class="container">
     <h2>Vehicle Details</h2>
     <?php
-include("dbase.php");
-require __DIR__ . '/phpqrcode/qrlib.php'; // Include the QR Code library
+require __DIR__ . '/qrlib.php'; // Include the QR Code library
 
 $query = "SELECT * FROM register_vehicle";
 $result = mysqli_query($conn, $query);
