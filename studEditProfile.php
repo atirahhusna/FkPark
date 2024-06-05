@@ -324,9 +324,15 @@ if ($result->num_rows > 0) {
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
+                        <i class="lni lni-car"></i>
+                        <span>Vehicle List</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

@@ -1,3 +1,16 @@
+<?php
+session_start(); // Start the session if not already started
+
+// Assuming userID is stored in session after login
+if (!isset($_SESSION['userID'])) {
+    // Redirect to login page if userID is not set
+    header('Location: login.php');
+    exit();
+}
+$userID = $_SESSION['userID'];
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -288,6 +301,12 @@
                     <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                        <i class="lni lni-car"></i>
+                        <span>Vehicle List</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

@@ -1,3 +1,8 @@
+<?php
+session_start(); // Start the session
+
+$userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning the value of userID from session to $userID variable
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -369,9 +374,15 @@ input[type=submit], input[type=reset], input[type=save] {
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                        <i class="lni lni-car"></i>
+                        <span>Vehicle List</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -504,8 +515,5 @@ input[type=submit], input[type=reset], input[type=save] {
             document.querySelector("#sidebar").classList.toggle("expand");
         });
     </script>
-</body>
-</html>
-
 </body>
 </html>

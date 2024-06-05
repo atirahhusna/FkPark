@@ -1,3 +1,15 @@
+<?php
+session_start(); // Start the session if not already started
+
+// Assuming userID is stored in session after login
+if (!isset($_SESSION['userID'])) {
+    // Redirect to login page if userID is not set
+    header('Location: login.php');
+    exit();
+}
+$userID = $_SESSION['userID'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -281,27 +293,21 @@
                 <li class="sidebar-item">
                     <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
-                        <span>Create Profile</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studEditProfile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
-                        <i class="lni lni-car"></i>
-                        <span>Vehicle Registration</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
-                        <i class="lni lni-car"></i>
-                        <span>Vehicle List</span>
-                    </a>
-                </li>
+        <a href="VehicleRegisterForm.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+            <i class="lni lni-car"></i>
+            <span>Vehicle Registration</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a href="VehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+            <i class="lni lni-car"></i>
+            <span>Vehicle List</span>
+        </a>
+    </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-warning"></i>
@@ -367,40 +373,49 @@
                 </div>
             </nav>
             <div class="container">
-    <h1>User Profile</h1>
-    <form action="stud_create.php" method="POST">
-    <div class="mb-3">
-                <label for="adminID" class="form-label">Student ID:</label>
-                <input type="text" class="form-control" id="StudentID" name="StudentID"  required>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="StudName" name="StudName"  required>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="StudPhoneNum" name="StudPhoneNum"  required>
-            </div>
-            <div class="mb-3">
-                <label for="text" class="form-label">Semester:</label>
-                <input type="text" class="form-control" id="StudSemester" name="StudSemester"  required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+                <h2>Vehicle List</h2>
+                <?php
+include("dbase.php");
 
+if (isset($_GET['userID'])) {
+    $userID = mysqli_real_escape_string($conn, $_GET['userID']);
+    
+    $query = "SELECT * FROM register_vehicle WHERE userID = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('s', $userID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        echo '<table class="table table-striped">';
+        echo '<thead><tr><th>Number</th><th>Vehicle ID</th><th>Vehicle Name</th><th>Status</th><th>Action</th></tr></thead>';
+        echo '<tbody>';
+        $counter = 1;
+        while ($row = $result->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . $counter . '</td>';
+            echo '<td>' . htmlspecialchars($row["VehicleID"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["VehicleName"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["ApprovalStatus"]) . '</td>';
+            echo '<td>';
+            echo '<a href="vehicleView.php?VehicleID=' . $row["VehicleID"] . '&userID=' . urlencode($userID) . '" class="btn btn-primary">View</a> ';
+            echo '</td>';
+            echo '</tr>';
+            $counter++;
+        }
+        echo '</tbody></table>';
+    } else {
+        echo "<p>No vehicles registered for this user.</p>";
+    }
 
+    $stmt->close();
+    $conn->close();
+} else {
+    echo "No userID provided.";
+}
+?>
 
-
-
-
-
-
-
-
-
-
-            <table class="center" style="margin: 0 auto;">
+       <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
                         <img src="logoFK.png" alt="logo" width="150" height="150">

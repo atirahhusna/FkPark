@@ -6,6 +6,13 @@ include("dbase.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if (!isset($_SESSION['userID'])) {
+    // Redirect to login page if studentID is not set
+    header('Location: login.php');
+    exit();
+}
+$userID = $_SESSION['userID'];
+
 if (isset($_GET['VehicleID'])) {
     $VehicleID = mysqli_real_escape_string($conn, $_GET['VehicleID']);
     
@@ -393,9 +400,15 @@ input[type=submit], input[type=reset], input[type=save] {
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                        <i class="lni lni-car"></i>
+                        <span>Vehicle List</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -464,49 +477,43 @@ input[type=submit], input[type=reset], input[type=save] {
             </nav>
             <div class="container">
     <h2>Vehicle Details</h2>
-    <?php if ($vehicle): ?>
-    <table class="table table-bordered">
-        <tr>
-            <th>Vehicle ID</th>
-            <td><?php echo htmlspecialchars($vehicle['VehicleID']); ?></td>
-        </tr>
-        <tr>
-            <th>Vehicle Type</th>
-            <td><?php echo htmlspecialchars($vehicle['VehicleType']); ?></td>
-        </tr>
-        <tr>
-            <th>Vehicle Name</th>
-            <td><?php echo htmlspecialchars($vehicle['VehicleName']); ?></td>
-        </tr>
-        <tr>
-    <th>Vehicle Grant</th>
-    <td><a href="<?php echo htmlspecialchars($vehicle['VehicleGrant']); ?>" target="_blank">View Grant</a></td>
-       </tr>
-        <tr>
-            <th>No Plate</th>
-            <td><?php echo htmlspecialchars($vehicle['NoPlate']); ?></td>
-        </tr>
-        <tr>
-            <th>Owner Name</th>
-            <td><?php echo htmlspecialchars($vehicle['OwnerName']); ?></td>
-        </tr>
-        <tr>
-            <th>Owner Address</th>
-            <td><?php echo htmlspecialchars($vehicle['OwnerAddress']); ?></td>
-        </tr>
-        <tr>
-            <th>Phone Number Owner</th>
-            <td><?php echo htmlspecialchars($vehicle['PhoneNumberOwner']); ?></td>
-        </tr>
-        <tr>
-    <th>Approval Status</th>
-    <td><?php echo htmlspecialchars($vehicle['ApprovalStatus']); ?></td>
-</tr>
+    <?php
+include("dbase.php");
+require __DIR__ . '/phpqrcode/qrlib.php'; // Include the QR Code library
 
-    </table>
-    <?php else: ?>
-    <p>No vehicle details found.</p>
-    <?php endif; ?>
+$query = "SELECT * FROM register_vehicle";
+$result = mysqli_query($conn, $query);
+
+if (mysqli_num_rows($result) > 0) {
+    echo '<table class="table table-striped">';
+    echo '<thead><tr><th>Number</th><th>Vehicle ID</th><th>Vehicle Name</th><th>Status</th><th>Action</th></tr></thead>';
+    echo '<tbody>';
+    $counter = 1;
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row["ApprovalStatus"] == "Approved") {
+            echo '<tr>';
+            echo '<td>' . $counter . '</td>';
+            echo '<td>' . htmlspecialchars($row["VehicleID"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["VehicleName"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["ApprovalStatus"]) . '</td>';
+            echo '<td>';
+            echo '<a href="vehicleView.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-primary">View</a> ';
+            // Generate QR code
+            $qrCodeContent = $row["VehicleID"]; // Unique content for QR code
+            $qrCodeFile = 'qrcodes/' . $row["VehicleID"] . '.png'; // File path for saving the QR code
+            QRcode::png($qrCodeContent, $qrCodeFile); // Generate QR code
+            echo '<a href="' . $qrCodeFile . '" download class="btn btn-info">Download QR Code</a>';
+            echo '</td>';
+            echo '</tr>';
+            $counter++;
+        }
+    }    
+    echo '</tbody></table>';
+} else {
+    echo "<p>No results found.</p>";
+}
+?>
+
 </div>
     <table class="center" style="margin: 0 auto;">
                 <tr>

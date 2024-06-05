@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start the session
-include("dbase.php");
+include("dbase.php"); // Include your database connection file
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
@@ -22,19 +22,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $uploadFile = $uploadDir . basename($vehicleGrant['name']);
 
     if (move_uploaded_file($vehicleGrant['tmp_name'], $uploadFile)) {
+        // Assuming userID is stored in the session
+        $userID = $_SESSION['userID']; // Adjust this according to your session variable
+
         // Insert new record
-        $query = "INSERT INTO register_vehicle (VehicleID, VehicleType, VehicleName, VehicleGrant, NoPlate, OwnerName, OwnerAddress, PhoneNumberOwner) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO register_vehicle (UserID, VehicleID, VehicleType, VehicleName, VehicleGrant, NoPlate, OwnerName, OwnerAddress, PhoneNumberOwner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param('ssssssss', $VehicleID, $VehicleType, $VehicleName, $uploadFile, $NoPlate, $OwnerName, $OwnerAddress, $PhoneNumberOwner);
+        $stmt->bind_param('sssssssss', $userID, $VehicleID, $VehicleType, $VehicleName, $uploadFile, $NoPlate, $OwnerName, $OwnerAddress, $PhoneNumberOwner);
 
         if ($stmt->execute()) {
             // Display the file name in the HTML
             echo "Uploaded file: " . htmlspecialchars(basename($vehicleGrant['name']));
-            header("Location: vehicleView.php?VehicleID=" . urlencode($VehicleID));
+
+            // Redirect with userID
+            header("Location: StudentVehicleList.php?userID=" . urlencode($userID));
             exit;
         } else {
             $error = "Error: " . $stmt->error;
-            header("Location: vehicleView.php?error=" . urlencode($error));
+            header("Location: StudentVehicleList.php?error=" . urlencode($error));
             exit;
         }
 

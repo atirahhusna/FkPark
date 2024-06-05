@@ -57,7 +57,7 @@
             min-width: 70px;
             z-index: 1000;
             transition: all .25s ease-in-out;
-            background-color: #2B7A78;
+            background-color: #0e2238;
             display: flex;
             flex-direction: column;
         }
@@ -279,27 +279,21 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/staffProfile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
-                        <span>Create Profile</span>
+                        <span>Create My Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studEditProfile.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/s_p_view.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
+                    <a href="#" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
-                        <i class="lni lni-car"></i>
-                        <span>Vehicle List</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -308,35 +302,10 @@
                         <span>New Summon</span>
                     </a>
                 </li>
-                
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-stamp"></i>
-                        <span>Apply Sticker</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-checkmark-circle"></i>
-                        <span>My Summon</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-list"></i>
-                        <span>My Demerit & Status</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-bookmark"></i>
-                        <span>Booking Parking</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-license"></i>
-                        <span>Park Vehicle</span>
+                        <i class="lni lni-parking"></i>
+                        <span>Park Availability</span>
                     </a>
                 </li>
             </ul>
@@ -367,38 +336,39 @@
                 </div>
             </nav>
             <div class="container">
-    <h1>User Profile</h1>
-    <form action="stud_create.php" method="POST">
-    <div class="mb-3">
-                <label for="adminID" class="form-label">Student ID:</label>
-                <input type="text" class="form-control" id="StudentID" name="StudentID"  required>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="StudName" name="StudName"  required>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="StudPhoneNum" name="StudPhoneNum"  required>
-            </div>
-            <div class="mb-3">
-                <label for="text" class="form-label">Semester:</label>
-                <input type="text" class="form-control" id="StudSemester" name="StudSemester"  required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+                <h2>Vehicle List</h2>
+                <?php
+include("dbase.php");
+$query = "SELECT * FROM register_vehicle";
+$result = mysqli_query($conn, $query);
 
-
-
-
-
-
-
-
-
-
-
+if (mysqli_num_rows($result) > 0) {
+    echo '<table class="table table-striped">';
+    echo '<thead><tr><th>Number</th><th>Vehicle ID</th><th>Vehicle Name</th><th>Status</th><th>Action</th></tr></thead>';
+    echo '<tbody>';
+    $counter = 1;
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row["ApprovalStatus"] != "Approved") {
+            echo '<tr>';
+            echo '<td>' . $counter . '</td>';
+            echo '<td>' . htmlspecialchars($row["VehicleID"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["VehicleName"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["ApprovalStatus"]) . '</td>';
+            echo '<td>';
+            echo '<a href="vehicleView.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-primary">View</a> ';
+            // Add buttons for staff actions
+            echo '<a href="approveVehicle.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-success">Approve</a> ';
+            echo '<a href="rejectVehicle.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-danger">Reject</a>';
+            echo '</td>';
+            echo '</tr>';
+            $counter++;
+        }
+    }    
+    echo '</tbody></table>';
+} else {
+    echo "<p>No results found.</p>";
+}
+?>
 
             <table class="center" style="margin: 0 auto;">
                 <tr>
@@ -427,3 +397,4 @@
     </script>
 </body>
 </html>
+
