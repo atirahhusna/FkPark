@@ -291,9 +291,9 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/staffApprove.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
-                        <span>Vehicle Registration</span>
+                        <span>Vehicle Approval</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

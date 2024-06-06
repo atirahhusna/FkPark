@@ -28,6 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Insert new record
         $query = "INSERT INTO register_vehicle (UserID, VehicleID, VehicleType, VehicleName, VehicleGrant, NoPlate, OwnerName, OwnerAddress, PhoneNumberOwner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
+
+        // Check if the statement was prepared successfully
+        if ($stmt === false) {
+            $error = "Error preparing statement: " . $conn->error;
+            header("Location: StudentVehicleList.php?error=" . urlencode($error));
+            exit;
+        }
+
         $stmt->bind_param('sssssssss', $userID, $VehicleID, $VehicleType, $VehicleName, $uploadFile, $NoPlate, $OwnerName, $OwnerAddress, $PhoneNumberOwner);
 
         if ($stmt->execute()) {
@@ -38,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: StudentVehicleList.php?userID=" . urlencode($userID));
             exit;
         } else {
-            $error = "Error: " . $stmt->error;
+            $error = "Error executing statement: " . $stmt->error;
             header("Location: StudentVehicleList.php?error=" . urlencode($error));
             exit;
         }
