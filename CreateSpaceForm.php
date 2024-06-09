@@ -1,33 +1,7 @@
 <?php
 session_start(); // Start the session
-include("dbase.php");
 
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-if (!isset($_SESSION['userID'])) {
-    // Redirect to login page if studentID is not set
-    header('Location: login.php');
-    exit();
-}
-$userID = $_SESSION['userID'];
-
-if (isset($_GET['VehicleID'])) {
-    $VehicleID = mysqli_real_escape_string($conn, $_GET['VehicleID']);
-    
-    $query = "SELECT * FROM register_vehicle WHERE VehicleID = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $VehicleID);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $vehicle = $result->fetch_assoc();
-    $stmt->close();
-    $conn->close();
-} else {
-    echo "No VehicleID provided.";
-    exit;
-}
+$userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning the value of userID from session to $userID variable
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -406,7 +380,7 @@ input[type=submit], input[type=reset], input[type=save] {
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle List</span>
                     </a>
@@ -475,45 +449,30 @@ input[type=submit], input[type=reset], input[type=save] {
                     </ul>
                 </div>
             </nav>
-            <div class="container">
-    <h2>Vehicle Details</h2>
-    <?php
-require __DIR__ . '/qrlib.php'; // Include the QR Code library
-
-$query = "SELECT * FROM register_vehicle";
-$result = mysqli_query($conn, $query);
-
-if (mysqli_num_rows($result) > 0) {
-    echo '<table class="table table-striped">';
-    echo '<thead><tr><th>Number</th><th>Vehicle ID</th><th>Vehicle Name</th><th>Status</th><th>Action</th></tr></thead>';
-    echo '<tbody>';
-    $counter = 1;
-    while ($row = mysqli_fetch_assoc($result)) {
-        if ($row["ApprovalStatus"] == "Approved") {
-            echo '<tr>';
-            echo '<td>' . $counter . '</td>';
-            echo '<td>' . htmlspecialchars($row["VehicleID"]) . '</td>';
-            echo '<td>' . htmlspecialchars($row["VehicleName"]) . '</td>';
-            echo '<td>' . htmlspecialchars($row["ApprovalStatus"]) . '</td>';
-            echo '<td>';
-            echo '<a href="vehicleView.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-primary">View</a> ';
-            // Generate QR code
-            $qrCodeContent = $row["VehicleID"]; // Unique content for QR code
-            $qrCodeFile = 'qrcodes/' . $row["VehicleID"] . '.png'; // File path for saving the QR code
-            QRcode::png($qrCodeContent, $qrCodeFile); // Generate QR code
-            echo '<a href="' . $qrCodeFile . '" download class="btn btn-info">Download QR Code</a>';
-            echo '</td>';
-            echo '</tr>';
-            $counter++;
-        }
-    }    
-    echo '</tbody></table>';
-} else {
-    echo "<p>No results found.</p>";
-}
-?>
-
-</div>
+    <div class="container">
+        <h2>Create Parking Space Form</h2>
+        <form action="CreateSpace.php" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for="name">Space ID:</label>
+                <input type="text" id="SpaceID" name="SpaceID" required>
+            </div>
+            <div class="input-group">
+                <label for="text">Location:</label>
+                <input type="text" id="Location" name="Location" required>
+            </div>
+            <div class="input-group">
+                <label for="text">Status:</label>
+                <input type="text" id="Status" name="Status" required>
+            </div>
+            <div class="input-group">
+                <label for="name">Area ID:</label>
+                <input type="text" id="AreaID" name="AreaID" required>
+            </div>
+            <div class="actions">
+                <button type="submit">Create</button>
+            </div>
+        </form>
+    </div>
     <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
@@ -539,8 +498,5 @@ if (mysqli_num_rows($result) > 0) {
             document.querySelector("#sidebar").classList.toggle("expand");
         });
     </script>
-</body>
-</html>
-
 </body>
 </html>
