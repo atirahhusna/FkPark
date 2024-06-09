@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize and validate input data
+    // Sanitize and validate input data 
     $VehicleID = mysqli_real_escape_string($conn, $_POST['VehicleID']);
     $VehicleType = mysqli_real_escape_string($conn, $_POST['VehicleType']);
     $VehicleName = mysqli_real_escape_string($conn, $_POST['VehicleName']);
