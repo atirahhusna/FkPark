@@ -296,20 +296,6 @@
                 </div>
             </div>
             <!-- Sidebar navigation -->
-            <ul class="sidebar-nav">
-                <!-- Existing sidebar items -->
-                <li class="sidebar-item">
-    <a href="#" class="sidebar-link has-dropdown" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
-        <i class="lni lni-profile"></i> <!-- Icon for Profile -->
-        <span>Profile</span>
-    </a>
-    <ul class="sidebar-dropdown collapse" id="profileDropdown">
-        <li class="sidebar-item">
-            <a href="http://localhost/FkPark/adminProfileEdit.php" class="sidebar-link">
-                <i class="lni lni-user"></i> <!-- Icon for My Profile -->
-                <span>Create My Profile</span>
-            </a>
-        </li>
         <li class="sidebar-item">
             <a href="http://localhost/FkPark/AdminProfileView.php" class="sidebar-link">
                 <i class="lni lni-user"></i> <!-- Icon for My Profile -->
@@ -317,18 +303,17 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="http://localhost/FkPark/Register.php" class="sidebar-link">
+            <a href="http://localhost/FkPark/Register.php" class="sidebar-link"> <!--register student-->
                 <i class="lni lni-graduation"></i>
-                <span>Register Student Account</span>
+                <span>Register Student </span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="http://localhost/FkPark/studentView.php" class="sidebar-link">
+            <a href="http://localhost/FkPark/studentView.php" class="sidebar-link">  <!--register list-->
                 <i class="lni lni-graduation"></i>
                 <span>Student Account List</span>
             </a>
         </li>
-    </ul>
 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
@@ -344,19 +329,19 @@
                         <span>Demerit Management</span>
                     </a>
                 </li>
-                 <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-calendar"></i> <!-- Example of adding an icon for Park Availability -->
-                <span>Park Availability</span>
-            </a>
-        </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-calendar"></i>
                         <span>Daily Report</span>
                     </a>
                 </li>
-            </ul>
+
             <!-- Sidebar footer -->
             <div class="sidebar-footer">
                 <a href="#" class="sidebar-link">

@@ -21,20 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param('sssss', $AdminID, $AdminName, $AdminPhoneNum, $AdminEmail, $userID);
 
         if ($stmt->execute()) {
-            $success = "Profile inserted successfully.";
-            header("Location: AdminProfileView.php?success=" . urlencode($success));
+            $_SESSION['success_message'] = "Profile inserted successfully.";
+            header("Location: AdminProfileView.php");
             exit;
         } else {
-            $error = "Error: " . $stmt->error;
-            header("Location: AdminProfileView.php?error=" . urlencode($error));
+            $_SESSION['error_message'] = "Error: " . $stmt->error;
+            header("Location: AdminProfileView.php");
             exit;
         }
 
         $stmt->close();
     } 
-    
-    }
+}
 
-    $conn->close();
-
+$conn->close();
 ?>

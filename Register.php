@@ -9,7 +9,7 @@ include("dbase.php");
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlatinumPage</title>
+    <title>Register student</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -193,75 +193,6 @@ include("dbase.php");
           resize: none;
         }
 
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
-    margin: 0;
-}
-
-.container {
-    background-color: #fff;
-    padding: 20px 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    margin: 0 auto;
-    margin-top: 20px;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    width: 70%;
-   
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input, .form-group select {
-    width: calc(100% - 20px);
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.button-place {
-    text-align: center;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-}
-
-.form-container {
-    width: 70%;
-    margin: 0 auto;
-}
-.form-check-inline {
-    display: inline-block;
-    margin-right: 10px; /* Adjust the spacing between radio buttons as needed */
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
         .column{
           padding-right:100px;
         }
@@ -298,7 +229,24 @@ button:hover {
     .button-container button:hover {
         background-color: black;
     }
+    .success-message {
+            background-color: #d4edda; /* Green color */
+            color: #155724; /* Dark green color */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb; /* Light green border */
+            border-radius: 5px;
+        }
 
+        /* Error message style */
+        .error-message {
+            background-color: #f8d7da; /* Red color */
+            color: #721c24; /* Dark red color */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb; /* Light red border */
+            border-radius: 5px;
+        }
 
 
     #footer{
@@ -369,34 +317,25 @@ button:hover {
                 </div>
             </div>
             <!-- Sidebar navigation -->
-            <ul class="sidebar-nav">
-                <!-- Existing sidebar items -->
-                <li class="sidebar-item">
-    <a href="#" class="sidebar-link has-dropdown" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
-        <i class="lni lni-profile"></i>
-        <span>Profile</span>
-    </a>
-    <ul class="sidebar-dropdown collapse" id="profileDropdown">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-profile"></i>
+            <a href="http://localhost/FkPark/AdminProfileView.php" class="sidebar-link">
+                <i class="lni lni-user"></i> <!-- Icon for My Profile -->
                 <span>My Profile</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="http://localhost/FkPark/Register.php" class="sidebar-link"> <!--register student-->
                 <i class="lni lni-graduation"></i>
-                <span>Student Account</span>
+                <span>Register Student </span>
             </a>
         </li>
-    </ul>
+        <li class="sidebar-item">
+            <a href="http://localhost/FkPark/studentView.php" class="sidebar-link">  <!--register list-->
+                <i class="lni lni-graduation"></i>
+                <span>Student Account List</span>
+            </a>
+        </li>
 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-car"></i>
-                        <span>Vehicle Registration</span>
-                    </a>
-                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-warning"></i>
@@ -413,8 +352,8 @@ button:hover {
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-parking"></i>
-                        <span>Park Availability</span>
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -423,7 +362,7 @@ button:hover {
                         <span>Daily Report</span>
                     </a>
                 </li>
-            </ul>
+
             <!-- Sidebar footer -->
             <div class="sidebar-footer">
                 <a href="#" class="sidebar-link">
@@ -453,6 +392,24 @@ button:hover {
             </nav>
             <div class="container">
        <h2>Registration Form</h2>
+
+<?php
+// Check if the success message session variable is set
+if (isset($_SESSION['success_message'])) {
+    echo "<div class='success-message'>" . $_SESSION['success_message'] . "</div>";
+    // Unset or destroy the session variable after displaying the message
+    unset($_SESSION['success_message']);
+}
+
+// Check if the error message session variable is set
+if (isset($_SESSION['error_message'])) {
+    echo "<div class='error-message'>" . $_SESSION['error_message'] . "</div>";
+    // Unset or destroy the session variable after displaying the message
+    unset($_SESSION['error_message']);
+}
+?>
+
+
                 <form action="student_registration.php" method="POST">
                     <div class="form-group">
                         <label for="email">Email:</label>

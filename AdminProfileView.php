@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 
 // Check if the userID is set in the session
 if (!isset($_SESSION['userID'])) {
-    die("User is not logged in.");
+    header("location: Login.php");
 }
 
 $userID = $_SESSION['userID'];
@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     $AdminPhoneNum = $adminData['AdminPhoneNum'];
     $AdminEmail = $adminData['AdminEmail'];
 } else {
-    die("Administrator data not found.");
+   header("location: adminProfileEdit.php");
 }
 
 $stmt->close();
@@ -40,7 +40,7 @@ $stmt->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlatinumPage</title>
+    <title>View profile Admin</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -156,46 +156,7 @@ $stmt->close();
             border-left: 3px solid #3b7ddd;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
 
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        .form-control {
-            margin-bottom: 20px;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
         ul.navigation{ 
         list-style-type: none;
         margin: 0;
@@ -300,6 +261,25 @@ $stmt->close();
         background-color: black;
     }
 
+    .success-message {
+    background-color: #d4edda; /* Green color */
+    color: #155724; /* Dark green color */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb; /* Light green border */
+    border-radius: 5px;
+}
+
+/* Error message style */
+.error-message {
+    background-color: #f8d7da; /* Red color */
+    color: #721c24; /* Dark red color */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb; /* Light red border */
+    border-radius: 5px;
+}
+
 
 
     #footer{
@@ -370,42 +350,25 @@ $stmt->close();
                 </div>
             </div>
             <!-- Sidebar navigation -->
-            <ul class="sidebar-nav">
-                <!-- Existing sidebar items -->
-                <li class="sidebar-item">
-    <a href="#" class="sidebar-link has-dropdown" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
-        <i class="lni lni-profile"></i> <!-- Icon for Profile -->
-        <span>Profile</span>
-    </a>
-    <ul class="sidebar-dropdown collapse" id="profileDropdown">
-    <li class="sidebar-item">
-            <a href="http://localhost/FkPark/AdminProfile.php" class="sidebar-link">
-                <i class="lni lni-user"></i> <!-- Icon for My Profile -->
-                <span>Create My Profile</span>
-            </a>
-        </li>
         <li class="sidebar-item">
-            <a href="http://localhost/FkPark/AdminProfile.php" class="sidebar-link">
+            <a href="http://localhost/FkPark/AdminProfileView.php" class="sidebar-link">
                 <i class="lni lni-user"></i> <!-- Icon for My Profile -->
                 <span>My Profile</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="http://localhost/FkPark/Register.php" class="sidebar-link"> <!--register student-->
                 <i class="lni lni-graduation"></i>
-                <span>Student Account</span>
+                <span>Register Student </span>
             </a>
         </li>
-    </ul>
+        <li class="sidebar-item">
+            <a href="http://localhost/FkPark/studentView.php" class="sidebar-link">  <!--register list-->
+                <i class="lni lni-graduation"></i>
+                <span>Student Account List</span>
+            </a>
+        </li>
 </li>
-
-
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-car"></i>
-                        <span>Vehicle Registration</span>
-                    </a>
-                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-warning"></i>
@@ -420,19 +383,19 @@ $stmt->close();
                         <span>Demerit Management</span>
                     </a>
                 </li>
-                 <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-calendar"></i> <!-- Example of adding an icon for Park Availability -->
-                <span>Park Availability</span>
-            </a>
-        </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-calendar"></i>
                         <span>Daily Report</span>
                     </a>
                 </li>
-            </ul>
+
             <!-- Sidebar footer -->
             <div class="sidebar-footer">
                 <a href="#" class="sidebar-link">
@@ -462,6 +425,20 @@ $stmt->close();
             </nav>
             <div class="container">
         <h1>User Profile</h1>
+        <?php
+// Display success message if set
+if (isset($_SESSION['success'])) {
+    echo "<div class='success-message'>" . $_SESSION['success'] . "</div>";
+    unset($_SESSION['success']); // Unset session variable to avoid displaying it again
+}
+
+// Display error message if set
+if (isset($_SESSION['error'])) {
+    echo "<div class='error-message'>" . $_SESSION['error'] . "</div>";
+    unset($_SESSION['error']); // Unset session variable to avoid displaying it again
+}
+?>
+
         <form action="AdminProfileUpdate2.php" method="POST">
             <div class="mb-3">
                 <label for="adminID" class="form-label">Admin ID:</label>

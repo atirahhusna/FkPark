@@ -1,7 +1,5 @@
-<!--kemaskini.php-->
-<!--To update data of ubah.php into the database.-->
 <?php
-session_start(); // Start the session
+session_start();
 include("dbase.php");
 
 // Enable error reporting for debugging
@@ -22,16 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param('sssss', $StaffID, $StaffName, $StaffPhoneNum, $StaffEmail, $userID);
 
     if ($stmt->execute()) {
-        $success = "Profile updated successfully.";
-        header("Location: s_p_view.php?success=" . urlencode($success));
-        exit;
+        $_SESSION['success_message'] = "Profile updated successfully.";
     } else {
-        $error = "Error: " . $stmt->error;
-        header("Location: s_p_view.php?error=" . urlencode($error));
-        exit;
+        $_SESSION['error_message'] = "Error: " . $stmt->error;
     }
 
     $stmt->close();
+    header("Location: s_p_view.php");
+    exit;
 }
 
 $conn->close();

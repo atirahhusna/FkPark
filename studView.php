@@ -1,7 +1,6 @@
-
 <?php
 session_start();
-include("dbase.php"); // Ensure this file contains the database connection setup
+include("dbase.php");
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
@@ -9,7 +8,8 @@ ini_set('display_errors', 1);
 
 // Check if the userID is set in the session
 if (!isset($_SESSION['userID'])) {
-    die("User is not logged in.");
+    header("Location: Login.php");
+    exit;
 }
 
 $userID = $_SESSION['userID'];
@@ -17,23 +17,28 @@ $userID = $_SESSION['userID'];
 // Fetch student data from the database
 $query = "SELECT StudentID, StudName, StudPhoneNum, StudSemester FROM student WHERE userID = ?";
 $stmt = $conn->prepare($query);
+
+if (!$stmt) {
+    die("Prepare statement failed: " . $conn->error);
+}
+
 $stmt->bind_param('s', $userID);
 $stmt->execute();
 $result = $stmt->get_result();
 
 // Check if the user is found
 if ($result->num_rows > 0) {
-    $StudentData = $result->fetch_assoc();
-    $StudentID = $StudentData['StudentID'];
-    $StudName = $StudentData['StudName'];
-    $StudSemester = $StudentData['StudSemester'];
-    $StudPhoneNum = $StudentData['StudPhoneNum'];
+    $StudData = $result->fetch_assoc();
+    $StudentID = $StudData['StudentID'];
+    $StudName = $StudData['StudName'];
+    $StudPhoneNum = $StudData['StudPhoneNum'];
+    $StudSemester = $StudData['StudSemester'];
 } else {
-    die("Student data not found.");
+    header("Location: studentProfile.php");
+    exit;
 }
 
 $stmt->close();
-$conn->close(); // Close the database connection
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -284,6 +289,25 @@ $conn->close(); // Close the database connection
             opacity: 1;
         }
 
+        .success-message {
+            background-color: #d4edda; /* Green color */
+            color: #155724; /* Dark green color */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb; /* Light green border */
+            border-radius: 5px;
+        }
+
+        /* Error message style */
+        .error-message {
+            background-color: #f8d7da; /* Red color */
+            color: #721c24; /* Dark red color */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb; /* Light red border */
+            border-radius: 5px;
+        }
+
         #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
             border: solid;
             border-width: 0 .075rem .075rem 0;
@@ -315,18 +339,14 @@ $conn->close(); // Close the database connection
                 </div>
             </div>
             <ul class="sidebar-nav">
-            <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Create Profile</span>
-                    </a>
-                </li>
+            
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studEditProfile.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/studView.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
@@ -405,6 +425,19 @@ $conn->close(); // Close the database connection
             </nav>
             <div class="container">
         <h1>User Profile</h1>
+        <?php
+                // Display success message
+                if (isset($_SESSION['success_message'])) {
+                    echo "<div class='success-message'>" . $_SESSION['success_message'] . "</div>";
+                    unset($_SESSION['success_message']);
+                }
+
+                // Display error message
+                if (isset($_SESSION['error_message'])) {
+                    echo "<div class='error-message'>" . $_SESSION['error_message'] . "</div>";
+                    unset($_SESSION['error_message']);
+                }
+                ?>
         <form action="studEditProfile.php" method="POST">
             <div class="mb-3">
                 <label for="StaffID" class="form-label">Student ID:</label>
