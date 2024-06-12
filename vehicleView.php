@@ -18,6 +18,9 @@ if (isset($_GET['VehicleID'])) {
     
     $query = "SELECT * FROM register_vehicle WHERE VehicleID = ?";
     $stmt = $conn->prepare($query);
+    if ($stmt === false) {
+        die('Error preparing statement: ' . htmlspecialchars($conn->error));
+    }
     $stmt->bind_param('s', $VehicleID);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -393,8 +396,8 @@ input[type=submit], input[type=reset], input[type=save] {
                 </div>
             </div>
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
+            <li class="sidebar-item">
+                    <a href="http://localhost/FkPark/studView.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
@@ -406,7 +409,7 @@ input[type=submit], input[type=reset], input[type=save] {
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle List</span>
                     </a>
@@ -456,64 +459,84 @@ input[type=submit], input[type=reset], input[type=save] {
                 </a>
             </div>
         </aside>
-        <div class="main">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <nav class="navbar bg-body-tertiary">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#">
-                           <!-- FK image placeholder -->
-                        </a>
-                    </div>
-                </nav>
-                <a class="navbar-brand" style="font-size:30px;" href="#">Welcome To FK park!</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <!-- Navigation items here -->
-                    </ul>
+    <div class="main">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <!-- FK image placeholder -->
+                    </a>
                 </div>
             </nav>
-            <div class="container">
+            <a class="navbar-brand" style="font-size:30px;" href="#">Welcome To FK park!</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <!-- Navigation items here -->
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+<?php if ($vehicle): ?>
     <h2>Vehicle Details</h2>
-    <?php
-require __DIR__ . '/qrlib.php'; // Include the QR Code library
-
-$query = "SELECT * FROM register_vehicle";
-$result = mysqli_query($conn, $query);
-
-if (mysqli_num_rows($result) > 0) {
-    echo '<table class="table table-striped">';
-    echo '<thead><tr><th>Number</th><th>Vehicle ID</th><th>Vehicle Name</th><th>Status</th><th>Action</th></tr></thead>';
-    echo '<tbody>';
-    $counter = 1;
-    while ($row = mysqli_fetch_assoc($result)) {
-        if ($row["ApprovalStatus"] == "Approved") {
-            echo '<tr>';
-            echo '<td>' . $counter . '</td>';
-            echo '<td>' . htmlspecialchars($row["VehicleID"]) . '</td>';
-            echo '<td>' . htmlspecialchars($row["VehicleName"]) . '</td>';
-            echo '<td>' . htmlspecialchars($row["ApprovalStatus"]) . '</td>';
-            echo '<td>';
-            echo '<a href="vehicleView.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-primary">View</a> ';
-            // Generate QR code
-            $qrCodeContent = $row["VehicleID"]; // Unique content for QR code
-            $qrCodeFile = 'qrcodes/' . $row["VehicleID"] . '.png'; // File path for saving the QR code
-            QRcode::png($qrCodeContent, $qrCodeFile); // Generate QR code
-            echo '<a href="' . $qrCodeFile . '" download class="btn btn-info">Download QR Code</a>';
-            echo '</td>';
-            echo '</tr>';
-            $counter++;
-        }
-    }    
-    echo '</tbody></table>';
-} else {
-    echo "<p>No results found.</p>";
-}
-?>
-
-</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Vehicle ID</th>
+            <td><?php echo htmlspecialchars($vehicle['VehicleID']); ?></td>
+        </tr>
+        <tr>
+            <th>Vehicle Type</th>
+            <td><?php echo htmlspecialchars($vehicle['VehicleType']); ?></td>
+        </tr>
+        <tr>
+            <th>Vehicle Name</th>
+            <td><?php echo htmlspecialchars($vehicle['VehicleName']); ?></td>
+        </tr>
+        <tr>
+            <th>Confirm No Plate</th>
+            <td><?php echo htmlspecialchars($vehicle['NoPlate']); ?></td>
+        </tr>
+        <tr>
+            <th>Owner Name</th>
+            <td><?php echo htmlspecialchars($vehicle['OwnerName']); ?></td>
+        </tr>
+        <tr>
+            <th>Owner Address</th>
+            <td><?php echo htmlspecialchars($vehicle['OwnerAddress']); ?></td>
+        </tr>
+        <tr>
+            <th>Owner Phone Number</th>
+            <td><?php echo htmlspecialchars($vehicle['PhoneNumberOwner']); ?></td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td><?php echo htmlspecialchars($vehicle['ApprovalStatus']); ?></td>
+        </tr>
+         <form method="post" action="qrcode.php" > 
+      <div class="form-group">
+         <label>QR Text</label>
+         <input type="text" name="qrtext" id="qrtext" placeholder="Enter QR Text" required data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="keyup" class="form-control" />
+      </div>
+      <div class="form-group">
+       <input type="submit" name="sbt-btn" value="QR Generate" class="btn btn-success" />
+      </div>
+     </form>
+    </table>
+    <form method="post" action="qrcode.php"> 
+                    <div class="form-group">
+                        <label>QR Text</label>
+                        <input type="text" name="qrtext" id="qrtext" placeholder="Enter QR Text" required data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="keyup" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="sbt-btn" value="QR Generate" class="btn btn-success" />
+                    </div>
+                </form>
+            <?php else: ?>
+                <p>No vehicle details found.</p>
+            <?php endif; ?>
+    </div>
     <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
@@ -539,8 +562,5 @@ if (mysqli_num_rows($result) > 0) {
             document.querySelector("#sidebar").classList.toggle("expand");
         });
     </script>
-</body>
-</html>
-
 </body>
 </html>

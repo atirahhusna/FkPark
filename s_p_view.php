@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 
 // Check if the userID is set in the session
 if (!isset($_SESSION['userID'])) {
-    die("User is not logged in.");
+    header("Location: Login.php");
 }
 
 $userID = $_SESSION['userID'];
@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     $StaffEmail = $StaffData['StaffEmail'];
     $StaffPhoneNum = $StaffData['StaffPhoneNum'];
 } else {
-    die("Staff data not found.");
+    header("Location: staffProfile.php");
 }
 
 $stmt->close();
@@ -260,6 +260,26 @@ $stmt->close();
         .button-container button:hover {
             background-color: black;
         }
+         
+        .success-message {
+            background-color: #d4edda; /* Green color */
+            color: #155724; /* Dark green color */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb; /* Light green border */
+            border-radius: 5px;
+        }
+
+        /* Error message style */
+        .error-message {
+            background-color: #f8d7da; /* Red color */
+            color: #721c24; /* Dark red color */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb; /* Light red border */
+            border-radius: 5px;
+        }
+
 
         .sidebar-item {
             position: relative;
@@ -313,12 +333,7 @@ $stmt->close();
                 </div>
             </div>
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/staffProfile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Create My Profile</span>
-                    </a>
-                </li>
+                
                 <li class="sidebar-item">
                     <a href="http://localhost/FkPark/s_p_view.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
@@ -326,9 +341,9 @@ $stmt->close();
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/staffApprove.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
-                        <span>Vehicle Registration</span>
+                        <span>Vehicle Approval</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -339,8 +354,8 @@ $stmt->close();
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-parking"></i>
-                        <span>Park Availability</span>
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
                     </a>
                 </li>
             </ul>
@@ -372,6 +387,21 @@ $stmt->close();
             </nav>
             <div class="container">
         <h1>User Profile</h1>
+        <?php
+                // Check if the success message session variable is set
+                if (isset($_SESSION['success_message'])) {
+                    echo "<div class='success-message'>" . $_SESSION['success_message'] . "</div>";
+                    // Unset or destroy the session variable after displaying the message
+                    unset($_SESSION['success_message']);
+                }
+
+                // Check if the error message session variable is set
+                if (isset($_SESSION['error_message'])) {
+                    echo "<div class='error-message'>" . $_SESSION['error_message'] . "</div>";
+                    // Unset or destroy the session variable after displaying the message
+                    unset($_SESSION['error_message']);
+                }
+                ?>
         <form action="staffEdit.php" method="POST">
             <div class="mb-3">
                 <label for="StaffID" class="form-label">Staff ID:</label>

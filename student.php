@@ -292,7 +292,7 @@ $userID = $_SESSION['userID'];
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/studView.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>

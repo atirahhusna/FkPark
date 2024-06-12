@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     $StudPhoneNum = $StudentData['StudPhoneNum'];
     $StudSemester = $StudentData['StudSemester'];
 } else {
-    die("Student data not found.");
+    header("Location: studentProfile.php");
 }
 ?>
 <!DOCTYPE html>
@@ -311,14 +311,9 @@ if ($result->num_rows > 0) {
                 </div>
             </div>
             <ul class="sidebar-nav">
+            
             <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studentProfile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Create Profile</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studEditProfile.php" class="sidebar-link">
+                    <a href="http://localhost/FkPark/studView.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>

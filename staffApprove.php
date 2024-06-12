@@ -278,12 +278,7 @@
                 </div>
             </div>
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/staffProfile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Create My Profile</span>
-                    </a>
-                </li>
+               
                 <li class="sidebar-item">
                     <a href="http://localhost/FkPark/s_p_view.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
@@ -291,9 +286,9 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="http://localhost/FkPark/staffApprove.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
-                        <span>Vehicle Registration</span>
+                        <span>Vehicle Approval</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -304,8 +299,8 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-parking"></i>
-                        <span>Park Availability</span>
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
                     </a>
                 </li>
             </ul>
@@ -355,7 +350,7 @@ if (mysqli_num_rows($result) > 0) {
             echo '<td>' . htmlspecialchars($row["VehicleName"]) . '</td>';
             echo '<td>' . htmlspecialchars($row["ApprovalStatus"]) . '</td>';
             echo '<td>';
-            echo '<a href="vehicleView.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-primary">View</a> ';
+            echo '<a href="staffViewVehicle.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-primary">View</a> ';
             // Add buttons for staff actions
             echo '<a href="approveVehicle.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-success">Approve</a> ';
             echo '<a href="rejectVehicle.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-danger">Reject</a>';

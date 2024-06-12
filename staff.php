@@ -278,12 +278,7 @@
                 </div>
             </div>
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/staffProfile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Create My Profile</span>
-                    </a>
-                </li>
+               
                 <li class="sidebar-item">
                     <a href="http://localhost/FkPark/s_p_view.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
@@ -304,8 +299,8 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-parking"></i>
-                        <span>Park Availability</span>
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
                     </a>
                 </li>
             </ul>
