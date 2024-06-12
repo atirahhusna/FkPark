@@ -513,26 +513,11 @@ input[type=submit], input[type=reset], input[type=save] {
         <tr>
             <th>Status</th>
             <td><?php echo htmlspecialchars($vehicle['ApprovalStatus']); ?></td>
+            <img src="<?php echo $qrcodeFilename; ?>" alt="QR Code">
+
         </tr>
-         <form method="post" action="qrcode.php" > 
-      <div class="form-group">
-         <label>QR Text</label>
-         <input type="text" name="qrtext" id="qrtext" placeholder="Enter QR Text" required data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="keyup" class="form-control" />
-      </div>
-      <div class="form-group">
-       <input type="submit" name="sbt-btn" value="QR Generate" class="btn btn-success" />
-      </div>
-     </form>
+        
     </table>
-    <form method="post" action="qrcode.php"> 
-                    <div class="form-group">
-                        <label>QR Text</label>
-                        <input type="text" name="qrtext" id="qrtext" placeholder="Enter QR Text" required data-parsley-pattern="^[a-zA-Z]+$" data-parsley-trigger="keyup" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" name="sbt-btn" value="QR Generate" class="btn btn-success" />
-                    </div>
-                </form>
             <?php else: ?>
                 <p>No vehicle details found.</p>
             <?php endif; ?>

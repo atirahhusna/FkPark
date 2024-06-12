@@ -1,5 +1,10 @@
 <?php
 session_start(); // Start the session if not already started
+include("dbase.php"); // Include your database connection file
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Assuming userID is stored in session after login
 if (!isset($_SESSION['userID'])) {
@@ -8,6 +13,28 @@ if (!isset($_SESSION['userID'])) {
     exit();
 }
 $userID = $_SESSION['userID'];
+
+// Query to count registered vehicles for this particular userID
+$query = "SELECT COUNT(*) AS vehicle_count FROM register_vehicle WHERE UserID = ? AND ApprovalStatus = 'Approved'";
+$stmt = $conn->prepare($query);
+
+if ($stmt === false) {
+    die("Error preparing statement: " . $conn->error);
+}
+
+$stmt->bind_param('s', $userID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result) {
+    $row = $result->fetch_assoc();
+    $vehicleCount = $row['vehicle_count'];
+} else {
+    $vehicleCount = 0;
+}
+
+$stmt->close();
+$conn->close();
 ?>
 
 
@@ -184,6 +211,38 @@ $userID = $_SESSION['userID'];
             background-color: black; /* Change background color on hover */
             color: white;
         }
+                /* Basic styling for the dashboard */
+          /* Updated styling for the dashboard */
+          .dashboard {
+    
+    top: 100px; /* Adjust top spacing as needed */
+    left: 10px; /* Adjust left spacing as needed */
+    width: 300px; /* Adjust width as needed */
+    height: 200px; /* Adjust height as needed */
+    font-family: Arial, sans-serif;
+    z-index: 1000; /* Ensure the dashboard appears above other elements */
+}
+
+.card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 2em;
+    color: #333;
+}
+
+.card p {
+    margin: 5px 0 0;
+    color: #666;
+}
+
 
         table.center {
             margin-left: auto; 
@@ -373,11 +432,37 @@ $userID = $_SESSION['userID'];
                     </ul>
                 </div>
             </nav>
-            <!-- Content -->
+            <div class="dashboard"  style="margin-bottom: 0;">
+                <div class="card">
+                    <h2><?php echo $vehicleCount; ?></h2>
+                    <p>Approved Vehicles</p>
+                </div>
+            </div>
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel"  style="margin-top: 0;">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="web1.png" class="d-block w-100" alt="..." style="width: 800px; height: 300px;">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="web2.png" class="d-block w-100" alt="..." style="width: 800px; height: 300px;">
+                    </div>
+                    <!-- Add more carousel items as needed -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+           
+          
             <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
-                        <img src="logoFK.png" alt="logo" width="150" height="150">
                     </td>
                     <td style="width: 800px; text-align: justify;">
                         <!-- Additional content here -->
