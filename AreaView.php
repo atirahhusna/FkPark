@@ -1,31 +1,22 @@
-<?php
-session_start(); // Start the session
-
-$userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning the value of userID from session to $userID variable
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <!-- Meta tags and stylesheets -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Registration Form</title>
+    <title>Area View</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-        /* General Styles */
         body {
             font-family: 'Poppins', sans-serif;
-            background-image: url('FK4.png'); /* Add your background image */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100vh;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
         }
 
         .wrapper {
@@ -38,14 +29,14 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
             overflow: hidden;
             transition: all 0.35s ease-in-out;
             background-color: #fafbfe;
+            padding: 20px;
         }
 
-        /* Sidebar Styles */
         #sidebar {
             width: 70px;
             min-width: 70px;
             z-index: 1000;
-            transition: all .25s ease-in-out;
+            transition: all 0.25s ease-in-out;
             background-color: #7B3F00;
             display: flex;
             flex-direction: column;
@@ -88,8 +79,8 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
             flex: 1 1 auto;
         }
 
-        .sidebar-link {
-            padding: .625rem 1.625rem;
+        a.sidebar-link {
+            padding: 0.625rem 1.625rem;
             color: #FFF;
             display: block;
             font-size: 0.9rem;
@@ -99,146 +90,53 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
 
         .sidebar-link i {
             font-size: 1.1rem;
-            margin-right: .75rem;
+            margin-right: 0.75rem;
         }
 
-        .sidebar-link:hover {
-            background-color: rgba(255, 255, 255, .075);
+        a.sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.075);
             border-left: 3px solid #3b7ddd;
-        }
-
-        .navigation {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #fffff;
-        }
-
-        .navigation li {
-            float: left;
-        }
-
-        .navigation li a {
-            display: block;
-            color: black;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .navigation li a:hover {
-            text-decoration: underline;
-            color: #054bb4;
-        }
-
-        .button {
-            background-color: #054BB4;
-            border: none;
-            color: white;
-            margin-top: 15px;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 20px;
-        }
-
-        .button:hover {
-            background-color: black; /* Change background color on hover */
-            color: white;
-        }
-
-        /* Form Styles */
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        form {
-            margin-top: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-        }
-
-        .actions {
-            text-align: center;
-        }
-
-        .actions button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .actions button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Additional Styles */
-        table.center {
-            margin: 0 auto;
-        }
-
-        textarea {
-            width: 300px;
-            height: 150px;
-            padding: 12px 20px;
-            box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            background-color: #f8f8f8;
-            font-size: 16px;
-            resize: none;
-        }
-
-        .column {
-            padding-right: 100px;
         }
 
         #footer {
             background-color: #ffffff;
-            text-align: justify;
-            padding-top: 10px;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
@@ -333,7 +231,7 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
                 <span>Dashboard</span>
             </a>
             </li>
-             <li class="sidebar-item">
+            <li class="sidebar-item">
               <a href="http://localhost/FkPark/ViewAvailability.php" class="sidebar-link"> <!--Parking Availability-->
                 <i class="lni lni-slack-line"></i>
                 <span>Parking Availability</span>
@@ -348,68 +246,66 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
                 </a>
             </div>
         </aside>
-        <!-- Main Content -->
         <div class="main">
-            <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <!-- Your navbar content here -->
+                <nav class="navbar bg-body-tertiary">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            <!-- FK image placeholder -->
+                        </a>
+                    </div>
+                </nav>
+                <a class="navbar-brand" style="font-size:30px;" href="#">Welcome To FK park!</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <!-- Navigation items here -->
+                    </ul>
+                </div>
             </nav>
-
-            <!-- Form Section -->
             <div class="container">
-                <h2>Create Parking Space Form</h2>
-                <form action="CreateSpace.php" method="post" enctype="multipart/form-data">
-                    <div class="input-group">
-                        <label for="SpaceID">Space ID:</label>
-                        <input type="text" id="SpaceID" name="SpaceID" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="Location">Location:</label>
-                        <select id="Location" name="Location" required>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="Status">Status:</label>
-                        <select id="Status" name="Status" required>
-                            <option value="Empty">Empty</option>
-                           <option value="Occupied">Occupied</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="AreaID">Area ID:</label>
-                        <input type="text" id="AreaID" name="AreaID" required>
-                    </div>
-                    <div class="actions">
-                        <button type="submit" class="button">Create</button>
-                    </div>
-                </form>
-            </div>
+                <h2>Area Information</h2>
+                <?php
+                include("dbase.php");
+                $query = "SELECT * FROM parking_area";
+                $result = mysqli_query($conn, $query);
 
-            <!-- Additional Content -->
-            <table class="center">
-                <tr>
-                    <td class="column" style="text-align: center;">
-                        <img src="logoFK.png" alt="logo" width="150" height="150">
-                    </td>
-                    <td style="width: 800px; text-align: justify;">
-                        <!-- Additional content here -->
-                    </td>
-                </tr>
-            </table>
+                if (mysqli_num_rows($result) > 0) {
+                    echo '<table class="table table-striped">';
+                    echo '<thead><tr><th>Area ID</th><th>Area Name</th><th>Status</th><th>Reason</th><th>Action</th></tr></thead>';
+                    echo '<tbody>';
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars($row["AreaID"]) . '</td>';
+                        echo '<td>' . htmlspecialchars($row["AreaName"]) . '</td>';
+                        echo '<td>' . htmlspecialchars($row["Status"]) . '</td>';
+                        echo '<td>' . htmlspecialchars($row["Reason"]) . '</td>';
+                        echo '<td>';
+                        echo '<a href="EditArea.php?AreaID=' . urlencode($row["AreaID"]) . '" class="btn btn-primary btn-sm">Edit</a> ';
+                        echo '<a href="DeleteArea.php?AreaID=' . urlencode($row["AreaID"]) . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this record?\')">Delete</a>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                    echo '</tbody></table>';
+                } else {
+                    echo "<p>No results found.</p>";
+                }
+                ?>
+
+            </div>
             <hr>
-            <p style="text-align:center;">Copyright &copy; 2024 FAKULTI KOMPUTER Corporation. All Rights Reserved.</p>
+            <div id="footer">
+                <p>Copyright &copy; 2024 FAKULTI KOMPUTER Corporation. All Rights Reserved.</p>
+            </div>
         </div>
     </div>
-
-    <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
     <script src="script.js"></script>
     <script>
-        // Sidebar Toggle Functionality
         const hamBurger = document.querySelector(".toggle-btn");
 
         hamBurger.addEventListener("click", function () {

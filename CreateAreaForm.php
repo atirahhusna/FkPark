@@ -14,33 +14,11 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-        /* General Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-image: url('FK4.png'); /* Add your background image */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* Sidebar Styles */
         .wrapper {
             display: flex;
         }
 
-        .main {
-            min-height: 100vh;
-            width: 100%;
-            overflow: hidden;
-            transition: all 0.35s ease-in-out;
-            background-color: #fafbfe;
-        }
-
-        /* Sidebar Styles */
         #sidebar {
             width: 70px;
             min-width: 70px;
@@ -78,11 +56,6 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
             font-weight: 600;
         }
 
-        #sidebar:not(.expand) .sidebar-logo,
-        #sidebar:not(.expand) a.sidebar-link span {
-            display: none;
-        }
-
         .sidebar-nav {
             padding: 2rem 0;
             flex: 1 1 auto;
@@ -107,52 +80,20 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
             border-left: 3px solid #3b7ddd;
         }
 
-        .navigation {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 1rem;
+        }
+
+        /* Main Content Styles */
+        .main {
+            min-height: 100vh;
+            width: 100%;
             overflow: hidden;
-            background-color: #fffff;
+            transition: all 0.35s ease-in-out;
+            background-color: #fafbfe;
         }
 
-        .navigation li {
-            float: left;
-        }
-
-        .navigation li a {
-            display: block;
-            color: black;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .navigation li a:hover {
-            text-decoration: underline;
-            color: #054bb4;
-        }
-
-        .button {
-            background-color: #054BB4;
-            border: none;
-            color: white;
-            margin-top: 15px;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 20px;
-        }
-
-        .button:hover {
-            background-color: black; /* Change background color on hover */
-            color: white;
-        }
-
-        /* Form Styles */
         .container {
             max-width: 500px;
             margin: 50px auto;
@@ -214,36 +155,53 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
             background-color: #0056b3;
         }
 
-        /* Additional Styles */
-        table.center {
+        /* General Body Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('FK4.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .center {
             margin: 0 auto;
         }
 
-        textarea {
-            width: 300px;
-            height: 150px;
-            padding: 12px 20px;
-            box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            background-color: #f8f8f8;
-            font-size: 16px;
-            resize: none;
+        /* Additional Styles */
+        .navbar-brand {
+            font-size: 30px;
         }
 
-        .column {
-            padding-right: 100px;
+        .navbar-toggler-icon {
+            color: #000;
         }
 
-        #footer {
-            background-color: #ffffff;
-            text-align: justify;
-            padding-top: 10px;
+        .navbar-nav {
+            /* Your navbar navigation styles */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .main {
+                padding: 15px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .navbar-brand {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
+ <div class="wrapper">
         <aside id="sidebar">
             <!-- Sidebar header -->
             <div class="d-flex">
@@ -333,7 +291,7 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
                 <span>Dashboard</span>
             </a>
             </li>
-             <li class="sidebar-item">
+            <li class="sidebar-item">
               <a href="http://localhost/FkPark/ViewAvailability.php" class="sidebar-link"> <!--Parking Availability-->
                 <i class="lni lni-slack-line"></i>
                 <span>Parking Availability</span>
@@ -348,73 +306,88 @@ $userID = isset($_SESSION['userID']) ? $_SESSION['userID'] : ''; // Assigning th
                 </a>
             </div>
         </aside>
-        <!-- Main Content -->
-        <div class="main">
-            <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <!-- Your navbar content here -->
+    <div class="main">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <!-- FK image placeholder -->
+                    </a>
+                </div>
             </nav>
-
-            <!-- Form Section -->
-            <div class="container">
-                <h2>Create Parking Space Form</h2>
-                <form action="CreateSpace.php" method="post" enctype="multipart/form-data">
-                    <div class="input-group">
-                        <label for="SpaceID">Space ID:</label>
-                        <input type="text" id="SpaceID" name="SpaceID" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="Location">Location:</label>
-                        <select id="Location" name="Location" required>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="Status">Status:</label>
-                        <select id="Status" name="Status" required>
-                            <option value="Empty">Empty</option>
-                           <option value="Occupied">Occupied</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="AreaID">Area ID:</label>
-                        <input type="text" id="AreaID" name="AreaID" required>
-                    </div>
-                    <div class="actions">
-                        <button type="submit" class="button">Create</button>
-                    </div>
-                </form>
+            <a class="navbar-brand" href="#">Welcome To FK park!</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <!-- Navigation items here -->
+                </ul>
             </div>
-
-            <!-- Additional Content -->
-            <table class="center">
-                <tr>
-                    <td class="column" style="text-align: center;">
-                        <img src="logoFK.png" alt="logo" width="150" height="150">
-                    </td>
-                    <td style="width: 800px; text-align: justify;">
-                        <!-- Additional content here -->
-                    </td>
-                </tr>
-            </table>
-            <hr>
-            <p style="text-align:center;">Copyright &copy; 2024 FAKULTI KOMPUTER Corporation. All Rights Reserved.</p>
+        </nav>
+        <div class="container">
+            <h2>Create Parking Area Form</h2>
+            <form action="CreateArea.php" method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <label for="AreaID">Area ID:</label>
+                    <input type="text" id="AreaID" name="AreaID" required>
+                </div>
+                <div class="input-group">
+                    <label for="AreaName">Area Name:</label>
+                    <select id="AreaName" name="AreaName" required>
+                        <option value="">Select Area Name</option>
+                        <option value="Left Wing">Left Wing</option>
+                        <option value="Right Wing">Right Wing</option>
+                        <option value="Front">Front</option>
+                        <option value="Back">Back</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="Status">Status:</label>
+                    <select id="Status" name="Status" required>
+                        <option value="">Select Status</option>
+                        <option value="Open">Open</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="Reason">Reason:</label>
+                    <input type="text" id="Reason" name="Reason" required>
+                </div>
+<div class="actions">
+                    <button type="submit" class="button">Create</button>
+                </div>
+            </form>
         </div>
+        <!-- Additional content -->
+        <table class="center">
+            <tr>
+                <td class="column" style="text-align: center;">
+                    <img src="logoFK.png" alt="logo" width="150" height="150">
+                </td>
+                <td style="width: 800px; text-align: justify;">
+                    <!-- Additional content here -->
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <p style="text-align:center;">Copyright &copy; 2024 FAKULTI KOMPUTER Corporation. All Rights Reserved.</p>
     </div>
+</div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-    <script>
-        // Sidebar Toggle Functionality
-        const hamBurger = document.querySelector(".toggle-btn");
+<script src="script.js"></script>
+<script>
+    // Sidebar Toggle Functionality
+    const hamBurger = document.querySelector(".toggle-btn");
 
-        hamBurger.addEventListener("click", function () {
-            document.querySelector("#sidebar").classList.toggle("expand");
-        });
-    </script>
+    hamBurger.addEventListener("click", function () {
+        document.querySelector("#sidebar").classList.toggle("expand");
+    });
+</script>
 </body>
 </html>
