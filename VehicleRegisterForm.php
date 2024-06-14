@@ -386,16 +386,9 @@ input[type=submit], input[type=reset], input[type=save] {
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-warning"></i>
-                        <span>New Summon</span>
-                    </a>
-                </li>
-                
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-stamp"></i>
-                        <span>Apply Sticker</span>
+                <a href="http://localhost/FkPark/module1Report.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

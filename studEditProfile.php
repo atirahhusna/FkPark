@@ -319,6 +319,12 @@ if ($result->num_rows > 0) {
                     </a>
                 </li>
                 <li class="sidebar-item">
+                <a href="http://localhost/FkPark/module1Report.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
@@ -328,19 +334,6 @@ if ($result->num_rows > 0) {
                     <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle List</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-warning"></i>
-                        <span>New Summon</span>
-                    </a>
-                </li>
-                
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-stamp"></i>
-                        <span>Apply Sticker</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

@@ -350,6 +350,12 @@ $stmt->close();
             </a>
         </li>
 </li>
+<li class="sidebar-item">
+                    <a href="#http://localhost/FkPark/AdminVehicleList.php" class="sidebar-link">
+                        <i class="lni lni-warning"></i>
+                        <span>Registered Vehicle</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-warning"></i>

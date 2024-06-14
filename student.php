@@ -357,6 +357,12 @@ $conn->close();
                     </a>
                 </li>
                 <li class="sidebar-item">
+                <a href="http://localhost/FkPark/module1Report.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
@@ -472,5 +478,6 @@ $conn->close();
             document.querySelector("#sidebar").classList.toggle("expand");
         });
     </script>
+    
 </body>
 </html>

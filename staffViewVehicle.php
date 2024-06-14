@@ -424,6 +424,10 @@ if (isset($_GET['VehicleID'])) {
             <th>Status</th>
             <td><?php echo htmlspecialchars($vehicle['ApprovalStatus']); ?></td>
         </tr>
+        <tr>
+            <th>QR Code</th>
+            <td><img src='<?php echo $qrImagePath; ?>' alt='QR Code'></td>
+        </tr>
     </table>
 <?php else: ?>
    

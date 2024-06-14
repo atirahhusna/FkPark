@@ -1,38 +1,62 @@
 <?php
-session_start();
+session_start(); // Start the session
 include("dbase.php");
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Check if the userID is set in the session
 if (!isset($_SESSION['userID'])) {
-    header("location: Login.php");
+    // Redirect to login page if userID is not set
+    header('Location: login.php');
+    exit();
 }
 
 $userID = $_SESSION['userID'];
 
-// Fetch administrator data from the database
-$query = "SELECT AdminID, AdminName, AdminPhoneNum, AdminEmail FROM administrator WHERE userID = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param('s', $userID);
-$stmt->execute();
-$result = $stmt->get_result();
+if (isset($_GET['VehicleID'])) {
+    $VehicleID = mysqli_real_escape_string($conn, $_GET['VehicleID']);
+    
+    $query = "SELECT * FROM register_vehicle WHERE VehicleID = ?";
+    $stmt = $conn->prepare($query);
+    if ($stmt === false) {
+        die('Error preparing statement: ' . htmlspecialchars($conn->error));
+    }
+    $stmt->bind_param('s', $VehicleID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $vehicle = $result->fetch_assoc();
+    $stmt->close();
 
-// Check if the user is found
-if ($result->num_rows > 0) {
-    $adminData = $result->fetch_assoc();
-    $AdminID = $adminData['AdminID'];
-    $AdminName = $adminData['AdminName'];
-    $AdminPhoneNum = $adminData['AdminPhoneNum'];
-    $AdminEmail = $adminData['AdminEmail'];
+    if ($vehicle) {
+        // Generate QR code text
+        $qrText = "No plate: " . $vehicle['VehicleID'] . "\nVehicle Type: " . $vehicle['VehicleType'] . "\nVehicle Name: " . $vehicle['VehicleName'];
+        
+        // Include QR code library
+        include('phpqrcode/qrlib.php');
+        
+        // Set path for saving QR code image
+        $qrImagePath = 'FkPark/imageQR/Vehicle' . $vehicle['VehicleID'] . '.png';
+        
+        // Generate QR code image
+        if (!file_exists(dirname($qrImagePath))) {
+            mkdir(dirname($qrImagePath), 0755, true); // Create directory if it doesn't exist
+        }
+        
+        if (QRcode::png($qrText, $qrImagePath, QR_ECLEVEL_L, 4)) {
+            echo "QR code generated successfully!";
+        } 
+    } else {
+        echo "No vehicle details found.";
+        exit;
+    }
+    $conn->close();
 } else {
-   header("location: adminProfileEdit.php");
+    echo "No VehicleID provided.";
+    exit;
 }
-
-$stmt->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +64,7 @@ $stmt->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View profile Admin</title>
+    <title>PlatinumPage</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -261,25 +285,6 @@ $stmt->close();
         background-color: black;
     }
 
-    .success-message {
-    background-color: #d4edda; /* Green color */
-    color: #155724; /* Dark green color */
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #c3e6cb; /* Light green border */
-    border-radius: 5px;
-}
-
-/* Error message style */
-.error-message {
-    background-color: #f8d7da; /* Red color */
-    color: #721c24; /* Dark red color */
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #f5c6cb; /* Light red border */
-    border-radius: 5px;
-}
-
 
 
     #footer{
@@ -429,43 +434,53 @@ $stmt->close();
                     </ul>
                 </div>
             </nav>
-            <div class="container">
-        <h1>User Profile</h1>
-        <?php
-// Display success message if set
-if (isset($_SESSION['success'])) {
-    echo "<div class='success-message'>" . $_SESSION['success'] . "</div>";
-    unset($_SESSION['success']); // Unset session variable to avoid displaying it again
-}
-
-// Display error message if set
-if (isset($_SESSION['error'])) {
-    echo "<div class='error-message'>" . $_SESSION['error'] . "</div>";
-    unset($_SESSION['error']); // Unset session variable to avoid displaying it again
-}
-?>
-
-        <form action="AdminProfileUpdate2.php" method="POST">
-            <div class="mb-3">
-                <label for="adminID" class="form-label">Admin ID:</label>
-                <input type="text" class="form-control" id="AdminID" name="AdminID" value="<?php echo htmlspecialchars($AdminID); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="AdminName" name="AdminName" value="<?php echo htmlspecialchars($AdminName); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="AdminPhoneNumber" name="AdminPhoneNumber" value="<?php echo htmlspecialchars($AdminPhoneNum); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="AdminEmail" name="AdminEmail" value="<?php echo htmlspecialchars($AdminEmail); ?>" readonly>
-            </div>
-            <button type="submit" class="btn btn-primary">Edit</button>
-        </form>
-    </div>
             <!-- Content -->
+            <div class="container">
+<?php if ($vehicle): ?>
+    <h2>Vehicle Details</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Vehicle ID</th>
+            <td><?php echo htmlspecialchars($vehicle['VehicleID']); ?></td>
+        </tr>
+        <tr>
+            <th>Vehicle Type</th>
+            <td><?php echo htmlspecialchars($vehicle['VehicleType']); ?></td>
+        </tr>
+        <tr>
+            <th>Vehicle Name</th>
+            <td><?php echo htmlspecialchars($vehicle['VehicleName']); ?></td>
+        </tr>
+        <tr>
+            <th>Confirm No Plate</th>
+            <td><?php echo htmlspecialchars($vehicle['NoPlate']); ?></td>
+        </tr>
+        <tr>
+            <th>Owner Name</th>
+            <td><?php echo htmlspecialchars($vehicle['OwnerName']); ?></td>
+        </tr>
+        <tr>
+            <th>Owner Address</th>
+            <td><?php echo htmlspecialchars($vehicle['OwnerAddress']); ?></td>
+        </tr>
+        <tr>
+            <th>Owner Phone Number</th>
+            <td><?php echo htmlspecialchars($vehicle['PhoneNumberOwner']); ?></td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td><?php echo htmlspecialchars($vehicle['ApprovalStatus']); ?></td>
+        </tr>
+        <tr>
+            <th>QR Code</th>
+            <td><img src='<?php echo $qrImagePath; ?>' alt='QR Code'></td>
+        </tr>
+    </table>
+<?php else: ?>
+   
+<?php endif; ?>
+    </div>
+
             <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">

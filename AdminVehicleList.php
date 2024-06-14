@@ -1,37 +1,13 @@
 <?php
-session_start();
-include("dbase.php");
+session_start(); // Start the session if not already started
 
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Check if the userID is set in the session
+// Assuming userID is stored in session after login
 if (!isset($_SESSION['userID'])) {
-    header("location: Login.php");
+    // Redirect to login page if userID is not set
+    header('Location: login.php');
+    exit();
 }
-
 $userID = $_SESSION['userID'];
-
-// Fetch administrator data from the database
-$query = "SELECT AdminID, AdminName, AdminPhoneNum, AdminEmail FROM administrator WHERE userID = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param('s', $userID);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Check if the user is found
-if ($result->num_rows > 0) {
-    $adminData = $result->fetch_assoc();
-    $AdminID = $adminData['AdminID'];
-    $AdminName = $adminData['AdminName'];
-    $AdminPhoneNum = $adminData['AdminPhoneNum'];
-    $AdminEmail = $adminData['AdminEmail'];
-} else {
-   header("location: adminProfileEdit.php");
-}
-
-$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +16,7 @@ $stmt->close();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View profile Admin</title>
+    <title>PlatinumPage</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -261,25 +237,6 @@ $stmt->close();
         background-color: black;
     }
 
-    .success-message {
-    background-color: #d4edda; /* Green color */
-    color: #155724; /* Dark green color */
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #c3e6cb; /* Light green border */
-    border-radius: 5px;
-}
-
-/* Error message style */
-.error-message {
-    background-color: #f8d7da; /* Red color */
-    color: #721c24; /* Dark red color */
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #f5c6cb; /* Light red border */
-    border-radius: 5px;
-}
-
 
 
     #footer{
@@ -369,7 +326,7 @@ $stmt->close();
             </a>
         </li>
 </li>
-<li class="sidebar-item">
+                <li class="sidebar-item">
                     <a href="#http://localhost/FkPark/AdminVehicleList.php" class="sidebar-link">
                         <i class="lni lni-warning"></i>
                         <span>Registered Vehicle</span>
@@ -429,43 +386,43 @@ $stmt->close();
                     </ul>
                 </div>
             </nav>
+            <!-- Content -->
             <div class="container">
-        <h1>User Profile</h1>
-        <?php
-// Display success message if set
-if (isset($_SESSION['success'])) {
-    echo "<div class='success-message'>" . $_SESSION['success'] . "</div>";
-    unset($_SESSION['success']); // Unset session variable to avoid displaying it again
+                <h2>Vehicle List</h2>
+                <?php
+include("dbase.php");
+
+// Fetch vehicles with ApprovalStatus 'Approved'
+$query = "SELECT * FROM register_vehicle WHERE ApprovalStatus = 'Approved'";
+$result = $conn->query($query);
+
+if ($result->num_rows > 0) {
+    echo '<table class="table table-striped">';
+    echo '<thead><tr><th>Number</th><th>Vehicle ID</th><th>Vehicle Name</th><th>Status</th><th>Action</th></tr></thead>';
+    echo '<tbody>';
+    $counter = 1;
+    while ($row = $result->fetch_assoc()) {
+        echo '<tr>';
+        echo '<td>' . $counter . '</td>';
+        echo '<td>' . htmlspecialchars($row["VehicleID"]) . '</td>';
+        echo '<td>' . htmlspecialchars($row["VehicleName"]) . '</td>';
+        echo '<td>' . htmlspecialchars($row["ApprovalStatus"]) . '</td>';
+        echo '<td>';
+        echo '<a href="AdminViewVehicle.php?VehicleID=' . $row["VehicleID"] . '" class="btn btn-primary">View</a> ';
+        echo '</td>';
+        echo '</tr>';
+        $counter++;
+    }
+    echo '</tbody></table>';
+} else {
+    echo '<p>No approved vehicle details to display.</p>';
 }
 
-// Display error message if set
-if (isset($_SESSION['error'])) {
-    echo "<div class='error-message'>" . $_SESSION['error'] . "</div>";
-    unset($_SESSION['error']); // Unset session variable to avoid displaying it again
-}
+$conn->close();
 ?>
 
-        <form action="AdminProfileUpdate2.php" method="POST">
-            <div class="mb-3">
-                <label for="adminID" class="form-label">Admin ID:</label>
-                <input type="text" class="form-control" id="AdminID" name="AdminID" value="<?php echo htmlspecialchars($AdminID); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="AdminName" name="AdminName" value="<?php echo htmlspecialchars($AdminName); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="AdminPhoneNumber" name="AdminPhoneNumber" value="<?php echo htmlspecialchars($AdminPhoneNum); ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="AdminEmail" name="AdminEmail" value="<?php echo htmlspecialchars($AdminEmail); ?>" readonly>
-            </div>
-            <button type="submit" class="btn btn-primary">Edit</button>
-        </form>
     </div>
-            <!-- Content -->
+
             <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
