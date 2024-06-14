@@ -280,8 +280,6 @@ $stmt->close();
         background-color: black;
     }
 
-
-
     #footer{
       background-color: #ffffff;
       text-align:justify;

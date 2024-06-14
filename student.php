@@ -368,19 +368,7 @@ $conn->close();
                         <span>Vehicle List</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-warning"></i>
-                        <span>New Summon</span>
-                    </a>
-                </li>
                 
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-stamp"></i>
-                        <span>Apply Sticker</span>
-                    </a>
-                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-checkmark-circle"></i>
@@ -402,7 +390,7 @@ $conn->close();
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-license"></i>
-                        <span>Park Vehicle</span>
+                        <span>Park Availability</span>
                     </a>
                 </li>
             </ul>

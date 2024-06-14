@@ -7,10 +7,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if (!isset($_SESSION['userID'])) {
-    // Redirect to login page if studentID is not set
+    // Redirect to login page if userID is not set
     header('Location: login.php');
     exit();
 }
+
 $userID = $_SESSION['userID'];
 
 if (isset($_GET['VehicleID'])) {
@@ -26,6 +27,29 @@ if (isset($_GET['VehicleID'])) {
     $result = $stmt->get_result();
     $vehicle = $result->fetch_assoc();
     $stmt->close();
+
+    if ($vehicle) {
+        // Generate QR code text
+        $qrText = "No plate: " . $vehicle['VehicleID'] . "\nVehicle Type: " . $vehicle['VehicleType'] . "\nVehicle Name: " . $vehicle['VehicleName'];
+        
+        // Include QR code library
+        include('phpqrcode/qrlib.php');
+        
+        // Set path for saving QR code image
+        $qrImagePath = 'FkPark/imageQR/Vehicle' . $vehicle['VehicleID'] . '.png';
+        
+        // Generate QR code image
+        if (!file_exists(dirname($qrImagePath))) {
+            mkdir(dirname($qrImagePath), 0755, true); // Create directory if it doesn't exist
+        }
+        
+        if (QRcode::png($qrText, $qrImagePath, QR_ECLEVEL_L, 4)) {
+            echo "QR code generated successfully!";
+        } 
+    } else {
+        echo "No vehicle details found.";
+        exit;
+    }
     $conn->close();
 } else {
     echo "No VehicleID provided.";

@@ -418,7 +418,7 @@ if (isset($_GET['userID'])) {
        <table class="center" style="margin: 0 auto;">
                 <tr>
                     <td class="column" style="text-align: center;">
-                        <img src="logoFK.png" alt="logo" width="150" height="150">
+                       
                     </td>
                     <td style="width: 800px; text-align: justify;">
                         <!-- Additional content here -->

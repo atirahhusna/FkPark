@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,7 @@
 <!-- Section: Design Block -->
 <style>
   #background {
-    background-image: url('FK4.png'); /* Specify the path to your image */
+    background-image: url('login.png'); /* Specify the path to your image */
     background-size: cover; /* Ensure the image covers the entire element */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Prevent the image from repeating */
