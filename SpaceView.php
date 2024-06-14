@@ -230,38 +230,28 @@
                 </div>
             </div>
             <!-- Sidebar navigation -->
-            <ul class="sidebar-nav">
-                <!-- Existing sidebar items -->
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
-                        <i class="lni lni-profile"></i>
-                        <span>Profile</span>
-                    </a>
-                    <ul class="sidebar-dropdown collapse" id="profileDropdown">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="lni lni-profile"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="lni lni-graduation"></i>
-                                <span>Student Account</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
-                        <i class="lni lni-car"></i>
-                        <span>Vehicle Registration</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="StudentVehicleList.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
-                        <i class="lni lni-car"></i>
-                        <span>Vehicle List</span>
+            <li class="sidebar-item">
+            <a href="http://localhost/FkPark/AdminProfileView.php" class="sidebar-link">
+                <i class="lni lni-user"></i> <!-- Icon for My Profile -->
+                <span>My Profile</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="http://localhost/FkPark/Register.php" class="sidebar-link"> <!--register student-->
+                <i class="lni lni-graduation"></i>
+                <span>Register Student </span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="http://localhost/FkPark/studentView.php" class="sidebar-link">  <!--register list-->
+                <i class="lni lni-graduation"></i>
+                <span>Student Account List</span>
+            </a>
+        </li>
+</li><li class="sidebar-item">
+                    <a href="#http://localhost/FkPark/AdminVehicleList.php" class="sidebar-link">
+                        <i class="lni lni-warning"></i>
+                        <span>Registered Vehicle</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -270,6 +260,8 @@
                         <span>New Summon</span>
                     </a>
                 </li>
+                <!-- New options with dropdown -->
+               
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-license"></i>
@@ -278,8 +270,8 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="lni lni-parking"></i>
-                        <span>Park Availability</span>
+                        <i class="lni lni-license"></i>
+                        <span>Park Vehicle</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -288,7 +280,44 @@
                         <span>Daily Report</span>
                     </a>
                 </li>
-            </ul>
+
+                <li class="sidebar-item">
+              <a href="http://localhost/FkPark/CreateSpaceForm.php" class="sidebar-link"> <!--create space form-->
+                <i class="lni lni-move"></i>
+                <span>Create Space Parking </span>
+            </a>
+            </li>
+              <li class="sidebar-item">
+              <a href="http://localhost/FkPark/SpaceView.php" class="sidebar-link"> <!--view space-->
+                <i class="lni lni-control-panel"></i>
+                <span>View Parking Space</span>
+            </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="http://localhost/FkPark/CreateAreaForm.php" class="sidebar-link"> <!--create area form-->
+                <i class="lni lni-frame-expand"></i>
+                <span>New Area </span>
+            </a>
+            </li>
+             <li class="sidebar-item">
+              <a href="http://localhost/FkPark/AreaView.php" class="sidebar-link"> <!--view area-->
+                <i class="lni lni-domain"></i>
+                <span>View Area</span>
+            </a>
+            </li>
+             <li class="sidebar-item">
+              <a href="http://localhost/FkPark/Dashboard.php" class="sidebar-link"> <!--Dashboard-->
+                <i class="lni lni-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="http://localhost/FkPark/ViewAvailability.php" class="sidebar-link"> <!--Parking Availability-->
+                <i class="lni lni-slack-line"></i>
+                <span>Parking Availability</span>
+            </a>
+            </li>
+
             <!-- Sidebar footer -->
             <div class="sidebar-footer">
                 <a href="#" class="sidebar-link">

@@ -331,7 +331,7 @@ $stmt->close();
                 </div>
             </div>
             <!-- Sidebar navigation -->
-        <li class="sidebar-item">
+            <li class="sidebar-item">
             <a href="http://localhost/FkPark/AdminProfileView.php" class="sidebar-link">
                 <i class="lni lni-user"></i> <!-- Icon for My Profile -->
                 <span>My Profile</span>
@@ -349,9 +349,8 @@ $stmt->close();
                 <span>Student Account List</span>
             </a>
         </li>
-</li>
-<li class="sidebar-item">
-                    <a href="#http://localhost/FkPark/AdminVehicleList.php" class="sidebar-link">
+</li><li class="sidebar-item">
+                    <a href="http://localhost/FkPark/AdminVehicleList.php" class="sidebar-link">
                         <i class="lni lni-warning"></i>
                         <span>Registered Vehicle</span>
                     </a>
@@ -382,6 +381,43 @@ $stmt->close();
                         <span>Daily Report</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+              <a href="http://localhost/FkPark/CreateSpaceForm.php" class="sidebar-link"> <!--create space form-->
+                <i class="lni lni-move"></i>
+                <span>Create Space Parking </span>
+            </a>
+            </li>
+              <li class="sidebar-item">
+              <a href="http://localhost/FkPark/SpaceView.php" class="sidebar-link"> <!--view space-->
+                <i class="lni lni-control-panel"></i>
+                <span>View Parking Space</span>
+            </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="http://localhost/FkPark/CreateAreaForm.php" class="sidebar-link"> <!--create area form-->
+                <i class="lni lni-frame-expand"></i>
+                <span>New Area </span>
+            </a>
+            </li>
+             <li class="sidebar-item">
+              <a href="http://localhost/FkPark/AreaView.php" class="sidebar-link"> <!--view area-->
+                <i class="lni lni-domain"></i>
+                <span>View Area</span>
+            </a>
+            </li>
+             <li class="sidebar-item">
+              <a href="http://localhost/FkPark/Dashboard.php" class="sidebar-link"> <!--Dashboard-->
+                <i class="lni lni-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="http://localhost/FkPark/ViewAvailability.php" class="sidebar-link"> <!--Parking Availability-->
+                <i class="lni lni-slack-line"></i>
+                <span>Parking Availability</span>
+            </a>
+            </li>
 
             <!-- Sidebar footer -->
             <div class="sidebar-footer">
