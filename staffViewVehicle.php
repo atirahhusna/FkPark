@@ -338,13 +338,13 @@ if (isset($_GET['VehicleID'])) {
             <ul class="sidebar-nav">
                
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/s_p_view.php" class="sidebar-link">
+                    <a href="http://indah.ump.edu.my/CA21083/FkPark/s_p_view.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/staffApprove.php" class="sidebar-link">
+                    <a href="http://indah.ump.edu.my/CA21083/FkPark/staffApprove.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Approval</span>
                     </a>

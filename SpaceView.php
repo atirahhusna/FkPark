@@ -325,7 +325,6 @@
                     <span>Logout</span>
                 </a>
             </div>
-        </aside>
         <div class="main">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <nav class="navbar bg-body-tertiary">

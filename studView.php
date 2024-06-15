@@ -341,14 +341,14 @@ $stmt->close();
             <ul class="sidebar-nav">
             
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/studView.php" class="sidebar-link">
+                    <a href="http://indah.ump.edu.my/CA21083/FkPark/studView.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="http://localhost/FkPark/VehicleRegisterForm.php" class="sidebar-link">
+                    <a href="http://indah.ump.edu.my/CA21083/FkPark/VehicleRegisterForm.php" class="sidebar-link">
                         <i class="lni lni-car"></i>
                         <span>Vehicle Registration</span>
                     </a>
@@ -360,7 +360,7 @@ $stmt->close();
                     </a>
                 </li>
                 <li class="sidebar-item">
-                <a href="http://localhost/FkPark/module1Report.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
+                <a href="http://indah.ump.edu.my/CA21083/FkPark/module1Report.php?userID=<?php echo urlencode($userID); ?>" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Dashboard</span>
                     </a>
